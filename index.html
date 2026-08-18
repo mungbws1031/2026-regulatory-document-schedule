@@ -18,6 +18,12 @@ main{width:min(1440px,90vw);margin:0 auto;padding:48px 0 80px}.legend{display:gr
 @media(max-width:1050px){.calendar{grid-template-columns:repeat(2,1fr)}.legend{grid-template-columns:repeat(2,1fr)}.custom-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:680px){.hero{padding:42px 24px}.hero h1{font-size:46px}.sticky{padding-left:18px}.spacer{display:none}main{width:auto;margin:0;padding:34px 18px 60px}.calendar,.legend,.alerts,.sources-grid,.custom-grid,.calc-results{grid-template-columns:1fr}.month{min-height:auto}.section-head{align-items:start;gap:12px;flex-direction:column}}
 @media print{.sticky,.custom-panel{display:none}.hero{padding:28px 36px}.hero h1{font-size:48px}.hero:after{display:none}main{width:94%;padding:25px 0}.calendar{grid-template-columns:repeat(3,1fr);gap:8px}.month{min-height:0;break-inside:avoid;box-shadow:none}.month-head{padding:12px}.month-num{font-size:28px}.event-list{padding:7px}.event{padding:7px 7px 7px 12px;margin-bottom:5px}.event h4{font-size:11px}.event p,.event-top{font-size:8px}.legend,.alerts,.sources{display:none}}
+.view-tabs{display:flex;gap:8px;margin:8px 0 24px;flex-wrap:wrap}.view-tab{border:1px solid var(--line);background:#fff;color:var(--navy);padding:11px 18px;border-radius:10px;font-weight:800;cursor:pointer}.view-tab.active{background:var(--navy);border-color:var(--navy);color:#fff}.view-panel{display:none}.view-panel.active{display:block}
+.schedule-wrap{overflow:auto;background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 24px rgba(24,36,58,.035)}.schedule-table{width:100%;border-collapse:collapse;min-width:980px}.schedule-table th{position:sticky;top:61px;z-index:5;background:var(--navy);color:#fff;text-align:left;padding:14px 16px;font-size:12px;letter-spacing:.04em}.schedule-table td{padding:14px 16px;border-bottom:1px solid #ece9e4;font-size:13px;vertical-align:top}.schedule-table tr:last-child td{border-bottom:0}.schedule-table tbody tr:hover{background:#faf9f7}.schedule-date{font-weight:900;white-space:nowrap}.schedule-title{font-weight:800;min-width:230px}.schedule-desc{color:var(--muted);min-width:300px}.system-label{font-size:11px;font-weight:900;color:var(--system,var(--navy));white-space:nowrap}.result-count{color:var(--muted);font-size:13px;margin:-14px 0 14px;text-align:right}
+.date-calendars{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.date-month{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 8px 24px rgba(24,36,58,.035)}.date-month-head{display:flex;align-items:baseline;justify-content:space-between;padding:18px 18px 13px;border-bottom:1px solid var(--line)}.date-month-head b{font-size:30px;letter-spacing:-.04em}.date-month-head span{font-size:11px;letter-spacing:.12em;color:var(--muted);font-weight:800}.weekdays,.days{display:grid;grid-template-columns:repeat(7,1fr)}.weekdays span{text-align:center;padding:8px 0;font-size:10px;font-weight:900;color:var(--muted)}.weekdays span:first-child{color:var(--red)}.days{padding:0 10px 10px}.day{min-height:58px;border-top:1px solid #efede9;padding:6px 5px;font-size:11px;position:relative}.day.blank{background:#faf9f7}.day.sunday .day-num{color:var(--red)}.day-num{font-weight:800}.day.has-event{background:#fff4f7}.day-event{display:block;margin-top:4px;border-radius:4px;background:var(--red);color:#fff;padding:3px 4px;font-size:8px;line-height:1.25;font-weight:800}.month-tasks{border-top:1px solid var(--line);background:#faf9f7;padding:12px 14px}.month-tasks strong{font-size:10px;color:var(--muted);letter-spacing:.08em}.month-task{display:flex;gap:7px;align-items:flex-start;margin-top:7px;font-size:11px}.month-task i{width:7px;height:7px;border-radius:50%;background:var(--system,var(--navy));margin-top:5px;flex:0 0 auto}.calendar-note{font-size:12px;color:var(--muted);margin:-12px 0 18px}
+@media(max-width:1050px){.date-calendars{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:680px){.date-calendars{grid-template-columns:1fr}.view-tabs{display:grid;grid-template-columns:repeat(3,1fr)}.view-tab{padding:10px 6px;font-size:12px}.schedule-table th{top:58px}.result-count{text-align:left}}
+@media print{.view-tabs,.result-count{display:none}.view-panel{display:none!important}.view-panel.active{display:block!important}.schedule-wrap{box-shadow:none}.schedule-table th{position:static}.date-calendars{grid-template-columns:repeat(3,1fr)}}
 </style>
 </head>
 <body>
@@ -41,8 +47,21 @@ main{width:min(1440px,90vw);margin:0 auto;padding:48px 0 80px}.legend{display:gr
   <article class="alert-main"><div class="date">2026.09.26 · IVDR</div><h3>Class C Legacy IVD<br>NB Written Agreement</h3><p>2026년 5월 26일까지 Formal Application을 제출하고 전환조건을 충족한 제품에 한해 적용됩니다. 제품별 Legacy 상태와 계약 범위를 확인해야 합니다.</p></article>
   <aside class="alert-side"><h3>회사별 날짜가 필요한 항목</h3><ul><li>KGMP 적합인정서 만료일과 변경 발생일</li><li>ISO 13485 인증서 만료일·CB 심사일</li><li>MDSAP AO 심사일·NC 발행일·인증 만료일</li><li>제품별 PSUR/PMPF/PER 기준일</li></ul></aside>
 </section>
-<div class="section-head"><h2>2026 YEAR MAP</h2><p>빨간 라벨 = 공식 공통기한 · 회색 라벨 = 권장 내부 관리일</p></div>
-<section class="calendar" id="calendar"></section>
+<div class="section-head"><h2>2026 SCHEDULE</h2><p>공식 기한과 내부 권장 업무를 표·달력·연간 맵으로 확인</p></div>
+<div class="view-tabs" role="tablist" aria-label="일정 보기 방식">
+  <button class="view-tab active" data-view="tableView" role="tab">일정표</button>
+  <button class="view-tab" data-view="dateView" role="tab">달력</button>
+  <button class="view-tab" data-view="mapView" role="tab">연간 맵</button>
+</div>
+<section class="view-panel active" id="tableView" role="tabpanel">
+  <p class="result-count" id="resultCount"></p>
+  <div class="schedule-wrap"><table class="schedule-table"><thead><tr><th>일정</th><th>구분</th><th>규제</th><th>업무</th><th>실행 내용</th></tr></thead><tbody id="scheduleBody"></tbody></table></div>
+</section>
+<section class="view-panel" id="dateView" role="tabpanel">
+  <p class="calendar-note">공식 기한은 정확한 날짜 칸에 표시하며, 날짜가 회사별로 달라지는 내부 업무는 각 월 하단의 ‘월간 권장 업무’로 구분합니다.</p>
+  <div class="date-calendars" id="dateCalendars"></div>
+</section>
+<section class="view-panel" id="mapView" role="tabpanel"><div class="calendar" id="calendar"></div></section>
 <section class="custom-panel">
   <div class="eyebrow">CUSTOM DEADLINE INPUT</div><h2>회사 인증정보로 일정 맞춤 계산</h2>
   <div class="custom-grid">
@@ -98,18 +117,51 @@ const E=[
 [12,'kgmp','internal','','KGMP 연간 문서 정합성 점검','SOP·기록·DMR/DHF·변경관리·교육문서의 최신성 확인'],
 [12,'mdsap','internal','','MDSAP 연간 Audit Readiness Close','열린 NC와 참여국 규제 요구사항 업데이트를 마감']
 ];
-function render(filter='all'){
+let activeFilter='all';
+function visibleEvent(e,filter=activeFilter){return filter==='all'||filter===e[2]||filter===e[1]}
+function renderMap(filter=activeFilter){
  const cal=document.getElementById('calendar');cal.innerHTML='';
  for(let m=1;m<=12;m++){
   const box=document.createElement('article');box.className='month';
   box.innerHTML=`<div class="month-head"><span class="month-num">${String(m).padStart(2,'0')}</span><span class="month-name">${months[m-1]} · 2026</span></div><div class="event-list"></div><div class="empty">선택한 조건의 일정이 없습니다.</div>`;
   const list=box.querySelector('.event-list');let shown=0;
-  E.filter(e=>e[0]===m).forEach(e=>{const[,sys,type,date,title,desc]=e;const visible=filter==='all'||filter===type||filter===sys;if(!visible)return;shown++;const el=document.createElement('div');el.className=`event ${sys}`;el.innerHTML=`<div class="event-top"><span class="sys">${sys==='iso'?'ISO 13485':sys.toUpperCase()}</span><span class="type ${type}">${type==='official'?'공식 기한':'내부 권장'}</span>${date?`<time>2026.${date}</time>`:''}</div><h4>${title}</h4><p>${desc}</p>`;list.appendChild(el)});
+  E.filter(e=>e[0]===m).forEach(e=>{const[,sys,type,date,title,desc]=e;if(!visibleEvent(e,filter))return;shown++;const el=document.createElement('div');el.className=`event ${sys}`;el.innerHTML=`<div class="event-top"><span class="sys">${sys==='iso'?'ISO 13485':sys.toUpperCase()}</span><span class="type ${type}">${type==='official'?'공식 기한':'내부 권장'}</span>${date?`<time>2026.${date}</time>`:''}</div><h4>${title}</h4><p>${desc}</p>`;list.appendChild(el)});
   if(!shown)box.querySelector('.empty').style.display='block';cal.appendChild(box)
  }
 }
-render();
-document.querySelectorAll('.filter').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');render(b.dataset.filter)}));
+function sysName(sys){return sys==='iso'?'ISO 13485':sys.toUpperCase()}
+function shortTitle(title){const labels={'Class C Legacy IVD Formal Application':'Class C 신청','EUDAMED 4개 모듈 의무사용 시작':'EUDAMED 의무화','KGMP 고시 제2026-46호 게시·시행':'KGMP 고시 시행','Class C Legacy IVD Written Agreement':'NB 서면계약','기존 Device UDI/DEV 등록기한':'UDI/DEV 등록'};return labels[title]||title}
+function renderTable(filter=activeFilter){
+ const body=document.getElementById('scheduleBody');body.innerHTML='';
+ const rows=E.filter(e=>visibleEvent(e,filter)).sort((a,b)=>a[0]-b[0]||((a[3]||'99.99').localeCompare(b[3]||'99.99')));
+ rows.forEach(([month,sys,type,date,title,desc])=>{const tr=document.createElement('tr');tr.className=sys;tr.innerHTML=`<td class="schedule-date">${date?`2026.${date}`:`2026.${String(month).padStart(2,'0')} · 월간`}</td><td><span class="type ${type}">${type==='official'?'공식 기한':'내부 권장'}</span></td><td><span class="system-label">${sysName(sys)}</span></td><td class="schedule-title">${title}</td><td class="schedule-desc">${desc}</td>`;body.appendChild(tr)});
+ document.getElementById('resultCount').textContent=`표시 일정 ${rows.length}건`;
+}
+function renderDateCalendars(filter=activeFilter){
+ const root=document.getElementById('dateCalendars');root.innerHTML='';
+ for(let m=1;m<=12;m++){
+  const card=document.createElement('article');card.className='date-month';
+  card.innerHTML=`<div class="date-month-head"><b>${String(m).padStart(2,'0')}</b><span>${months[m-1]} · 2026</span></div><div class="weekdays"><span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span></div><div class="days"></div><div class="month-tasks"><strong>월간 일정 상세</strong></div>`;
+  const days=card.querySelector('.days'), first=new Date(2026,m-1,1).getDay(), last=new Date(2026,m,0).getDate();
+  for(let i=0;i<first;i++){const blank=document.createElement('div');blank.className='day blank';days.appendChild(blank)}
+  for(let day=1;day<=last;day++){
+   const cell=document.createElement('div');const weekday=new Date(2026,m-1,day).getDay();cell.className=`day${weekday===0?' sunday':''}`;cell.innerHTML=`<span class="day-num">${day}</span>`;
+   E.filter(e=>e[0]===m&&e[2]==='official'&&e[3]&&Number(e[3].split('.')[1])===day&&visibleEvent(e,filter)).forEach(e=>{cell.classList.add('has-event');cell.insertAdjacentHTML('beforeend',`<span class="day-event">${sysName(e[1])}<br>${shortTitle(e[4])}</span>`)});days.appendChild(cell)
+  }
+  const tasks=card.querySelector('.month-tasks');const exact=E.filter(e=>e[0]===m&&e[2]==='official'&&visibleEvent(e,filter));const monthly=E.filter(e=>e[0]===m&&e[2]==='internal'&&visibleEvent(e,filter));
+  exact.forEach(e=>tasks.insertAdjacentHTML('beforeend',`<div class="month-task ${e[1]}"><i></i><span><b>2026.${e[3]} · ${sysName(e[1])}</b><br>${e[4]}</span></div>`));
+  monthly.forEach(e=>tasks.insertAdjacentHTML('beforeend',`<div class="month-task ${e[1]}"><i></i><span><b>${sysName(e[1])} · 내부 권장</b><br>${e[4]}</span></div>`));
+  if(!exact.length&&!monthly.length)tasks.insertAdjacentHTML('beforeend','<div class="month-task"><span>선택한 조건의 일정 없음</span></div>');
+  root.appendChild(card)
+ }
+}
+function renderAll(){renderMap();renderTable();renderDateCalendars()}
+function setFilter(filter){const button=document.querySelector(`.filter[data-filter="${filter}"]`);if(!button)return;document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));button.classList.add('active');activeFilter=filter;renderAll()}
+function setView(view){const button=document.querySelector(`.view-tab[data-view="${view}"]`);if(!button)return;document.querySelectorAll('.view-tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.view-panel').forEach(x=>x.classList.remove('active'));button.classList.add('active');document.getElementById(view).classList.add('active')}
+renderAll();
+document.querySelectorAll('.filter').forEach(b=>b.addEventListener('click',()=>setFilter(b.dataset.filter)));
+document.querySelectorAll('.view-tab').forEach(b=>b.addEventListener('click',()=>setView(b.dataset.view)));
+const query=new URLSearchParams(location.search);if(query.has('filter'))setFilter(query.get('filter'));if(query.has('view'))setView(query.get('view'));
 const fields=['kgmpDate','isoDate','mdsapDate','auditDate'];
 function fmt(d){return d.toLocaleDateString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit'})}
 function minus(date,days){const d=new Date(date+'T12:00:00');d.setDate(d.getDate()-days);return d}
