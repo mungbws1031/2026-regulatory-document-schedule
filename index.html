@@ -4,6 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>2026 Regulatory Document Schedule Map</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22><rect width=%2264%22 height=%2264%22 rx=%2214%22 fill=%22%2318243a%22/><text x=%2232%22 y=%2242%22 text-anchor=%22middle%22 font-size=%2230%22 fill=%22white%22>26</text></svg>">
 <style>
 :root{--bg:#f7f5f2;--paper:#fff;--navy:#18243a;--navy2:#25344e;--muted:#667085;--line:#d8d4cf;--red:#e60044;--blue:#2864dc;--green:#1b7f5a;--amber:#a85b00;--soft:#ece9e4;--shadow:0 18px 45px rgba(24,36,58,.08)}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--navy);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;line-height:1.5}
@@ -30,6 +31,7 @@ main{width:min(1440px,90vw);margin:0 auto;padding:48px 0 80px}.legend{display:gr
 .official-catalog{margin:48px 0}.official-catalog h2{font-size:24px;margin-bottom:8px}.catalog-intro{color:var(--muted);font-size:13px;margin-bottom:18px}.catalog-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.catalog-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px}.catalog-card h3{font-size:14px;margin-bottom:12px}.catalog-card ul{padding-left:17px}.catalog-card li{font-size:11px;line-height:1.55;margin:7px 0;color:#49566a}.catalog-card b{color:var(--navy)}.catalog-card.fixed{border-top:4px solid var(--red)}.catalog-card.relative{border-top:4px solid #225ee7}.catalog-card.recurring{border-top:4px solid #b85b00}.catalog-card.contract{border-top:4px solid #16845b}.field input,.field select{width:100%;padding:10px 11px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--navy);font:inherit}.official-range{background:var(--red)!important}.official-range em{color:var(--red)!important}.calc.official-calc{border-left:4px solid var(--red);background:#fff4f7}.calc.official-calc b{color:var(--red)}
 @media(max-width:900px){.catalog-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:560px){.catalog-grid{grid-template-columns:1fr}}
+.view-tab,.filter{min-height:44px}
 </style>
 </head>
 <body>
@@ -53,7 +55,7 @@ main{width:min(1440px,90vw);margin:0 auto;padding:48px 0 80px}.legend{display:gr
   <article class="alert-main"><div class="date">2026.09.26 · IVDR</div><h3>Class C Legacy IVD<br>NB Written Agreement</h3><p>2026년 5월 26일까지 Formal Application을 제출하고 전환조건을 충족한 제품에 한해 적용됩니다. 제품별 Legacy 상태와 계약 범위를 확인해야 합니다.</p></article>
   <aside class="alert-side"><h3>회사별 날짜가 필요한 항목</h3><ul><li>KGMP 적합인정서 만료일과 변경 발생일</li><li>ISO 13485 인증서 만료일·CB 심사일</li><li>MDSAP AO 심사일·NC 발행일·인증 만료일</li><li>제품별 PSUR/PMPF/PER 기준일</li></ul></aside>
 </section>
-<div class="section-head"><h2>2026 SCHEDULE</h2><p>공식 기한과 내부 권장 업무를 표·달력·연간 맵으로 확인</p></div>
+<div class="section-head"><h2>2026 SCHEDULE</h2><p>공식 기한과 내부 권장 업무를 일정표·달력·간트차트·연간 맵으로 확인</p></div>
 <div class="view-tabs" role="tablist" aria-label="일정 보기 방식">
   <button class="view-tab active" data-view="tableView" role="tab">일정표</button>
   <button class="view-tab" data-view="dateView" role="tab">달력</button>
@@ -97,7 +99,7 @@ main{width:min(1440px,90vw);margin:0 auto;padding:48px 0 80px}.legend{display:gr
     <div class="field"><label for="auditEndDate">MDSAP 심사 종료일</label><input id="auditEndDate" type="date"></div>
   </div>
   <div class="calc-results" id="calcResults"></div>
-  <p class="custom-note">입력값은 브라우저에만 저장됩니다. 빨간 결과는 공식 규칙 기반 계산일, 일반 결과는 내부 준비 목표입니다. 제품 적용성·인증기관 계약·관할당국 지침을 함께 확인하세요.</p>
+  <p class="custom-note">입력값은 브라우저에만 저장됩니다. 빨간 결과는 공식 규칙 기반 계산일, 일반 결과는 내부 준비 목표입니다. 계산일이 2026년에 해당하면 간트차트에 자동 반영됩니다. 제품 적용성·인증기관 계약·관할당국 지침을 함께 확인하세요.</p>
 </section>
 <section class="sources"><h2>OFFICIAL SOURCES</h2><div class="sources-grid">
 <a class="source" href="https://www.mfds.go.kr/brd/m_211/view.do?seq=14977" target="_blank" rel="noreferrer">MFDS — 의료기기 제조 및 품질관리 기준<small>제2026-46호 · 2026.07.01</small></a>
@@ -108,7 +110,7 @@ main{width:min(1440px,90vw);margin:0 auto;padding:48px 0 80px}.legend{display:gr
 <a class="source" href="https://emedi.mfds.go.kr/msismext/emd/bif/renewalView.do" target="_blank" rel="noreferrer">MFDS — 의료기기 품목갱신<small>유효기간 만료 270~180일 전 신청</small></a>
 <a class="source" href="https://eur-lex.europa.eu/eli/reg/2017/746/oj" target="_blank" rel="noreferrer">EUR-Lex — Regulation (EU) 2017/746<small>PSUR·PER·Vigilance 공식 요구사항</small></a>
 <a class="source" href="https://www.mdsap.global/manufacturers/what-happens-after-i-have-mdsap-certification" target="_blank" rel="noreferrer">MDSAP — Certification Cycle<small>3년 주기·연간 Surveillance Audit</small></a>
-<a class="source" href="https://www.fda.gov/medical-devices/medical-device-single-audit-program-mdsap/mdsap-au-p0026-certificate-document-requirements" target="_blank" rel="noreferrer">FDA/MDSAP — AU P0026<small>Certification Document Requirements</small></a>
+<a class="source" href="https://www.fda.gov/medical-devices/medical-device-single-audit-program-mdsap/mdsap-audit-procedures-and-forms" target="_blank" rel="noreferrer">FDA/MDSAP — Audit Procedures & Forms<small>AU P0026 Certification Document Requirements 포함</small></a>
 </div><p class="footnote">주의: 이 캘린더는 공통 규제기한과 보수적인 내부 관리 권장일을 함께 보여주는 운영 도구입니다. NB·CB·AO 계약, 인증서, 제품 등급 및 회사 SOP에 기재된 날짜가 우선합니다.</p></section>
 </main>
 <script>
@@ -275,9 +277,10 @@ function renderGantt(filter=activeFilter){
  if(!count)root.insertAdjacentHTML('beforeend','<div class="gantt-empty">선택한 조건의 일정이 없습니다.</div>')
 }
 function renderAll(){renderMap();renderTable();renderDateCalendars();renderGantt()}
-function setFilter(filter){const button=document.querySelector(`.filter[data-filter="${filter}"]`);if(!button)return;document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));button.classList.add('active');activeFilter=filter;renderAll()}
-function setView(view){const button=document.querySelector(`.view-tab[data-view="${view}"]`);if(!button)return;document.querySelectorAll('.view-tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.view-panel').forEach(x=>x.classList.remove('active'));button.classList.add('active');document.getElementById(view).classList.add('active')}
+function setFilter(filter){const button=document.querySelector(`.filter[data-filter="${filter}"]`);if(!button)return;document.querySelectorAll('.filter').forEach(x=>{x.classList.remove('active');x.setAttribute('aria-pressed',String(x===button))});button.classList.add('active');activeFilter=filter;renderAll()}
+function setView(view){const button=document.querySelector(`.view-tab[data-view="${view}"]`);if(!button)return;document.querySelectorAll('.view-tab').forEach(x=>{x.classList.remove('active');x.setAttribute('aria-selected',String(x===button));x.setAttribute('aria-controls',x.dataset.view);x.tabIndex=x===button?0:-1});document.querySelectorAll('.view-panel').forEach(x=>x.classList.remove('active'));button.classList.add('active');document.getElementById(view).classList.add('active')}
 renderAll();
+setFilter(activeFilter);setView('tableView');
 document.querySelectorAll('.filter').forEach(b=>b.addEventListener('click',()=>setFilter(b.dataset.filter)));
 document.querySelectorAll('.view-tab').forEach(b=>b.addEventListener('click',()=>setView(b.dataset.view)));
 const query=new URLSearchParams(location.search);if(query.has('filter'))setFilter(query.get('filter'));if(query.has('view'))setView(query.get('view'));
