@@ -24,6 +24,12 @@ main{width:min(1440px,90vw);margin:0 auto;padding:48px 0 80px}.legend{display:gr
 @media(max-width:1050px){.date-calendars{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:680px){.date-calendars{grid-template-columns:1fr}.view-tabs{display:grid;grid-template-columns:repeat(3,1fr)}.view-tab{padding:10px 6px;font-size:12px}.schedule-table th{top:58px}.result-count{text-align:left}}
 @media print{.view-tabs,.result-count{display:none}.view-panel{display:none!important}.view-panel.active{display:block!important}.schedule-wrap{box-shadow:none}.schedule-table th{position:static}.date-calendars{grid-template-columns:repeat(3,1fr)}}
+.gantt-note{font-size:12px;color:var(--muted);margin:-12px 0 18px}.gantt-viewport{overflow:auto;background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 8px 24px rgba(24,36,58,.035)}.gantt{min-width:1280px}.gantt-head,.gantt-row{display:grid;grid-template-columns:300px 120px 1fr}.gantt-head{position:sticky;top:61px;z-index:7;background:var(--navy);color:#fff}.gantt-head-label{padding:13px 16px;font-size:11px;font-weight:900;letter-spacing:.06em;border-right:1px solid #52627a}.gantt-months{display:grid;grid-template-columns:repeat(12,1fr)}.gantt-months span{text-align:center;padding:13px 0;font-size:10px;font-weight:900;border-left:1px solid #52627a}.gantt-group{display:grid;grid-template-columns:420px 1fr;background:#f0eeea;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:9px 16px;font-size:12px;font-weight:900;letter-spacing:.08em;color:var(--system,var(--navy))}.gantt-row{min-height:54px;border-bottom:1px solid #efede9}.gantt-row:last-child{border-bottom:0}.gantt-task{padding:9px 14px 8px 18px}.gantt-task b{display:block;font-size:12px;line-height:1.3}.gantt-task small{font-size:9px;color:var(--muted);font-weight:800}.gantt-kind{padding:13px 10px;border-left:1px solid #efede9;border-right:1px solid #efede9}.gantt-track{position:relative;min-height:54px;background-image:repeating-linear-gradient(to right,transparent 0,transparent calc(8.3333% - 1px),#e7e3de calc(8.3333% - 1px),#e7e3de 8.3333%)}.gantt-bar{position:absolute;top:12px;height:18px;border-radius:5px;background:var(--system,var(--navy));min-width:5px;box-shadow:0 3px 8px rgba(24,36,58,.16)}.gantt-bar span{display:block;color:#fff;font-size:8px;font-weight:900;padding:3px 5px;white-space:nowrap;overflow:hidden}.gantt-bar em{position:absolute;top:20px;left:0;color:var(--muted);font-size:8px;font-style:normal;font-weight:800;white-space:nowrap}.gantt-bar.right em{left:auto;right:0}.gantt-marker{position:absolute;top:5px;bottom:5px;width:2px;background:var(--red)}.gantt-marker:before{content:"";position:absolute;left:-5px;top:9px;width:12px;height:12px;border-radius:50%;background:var(--red);box-shadow:0 0 0 4px #fff}.gantt-marker em{position:absolute;top:28px;left:7px;background:#fff4f7;color:var(--red);border:1px solid #ffb5ca;border-radius:5px;padding:2px 5px;font-size:8px;font-style:normal;font-weight:900;white-space:nowrap}.gantt-marker.right em{left:auto;right:7px}.gantt-empty{padding:32px;text-align:center;color:var(--muted)}
+@media(max-width:680px){.view-tabs{grid-template-columns:repeat(4,1fr)}.gantt-head{top:58px}}
+@media print{.gantt-viewport{box-shadow:none;overflow:visible}.gantt{min-width:100%}.gantt-head,.gantt-row{grid-template-columns:220px 80px 1fr}.gantt-head{position:static}.gantt-task b{font-size:9px}}
+.official-catalog{margin:48px 0}.official-catalog h2{font-size:24px;margin-bottom:8px}.catalog-intro{color:var(--muted);font-size:13px;margin-bottom:18px}.catalog-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.catalog-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px}.catalog-card h3{font-size:14px;margin-bottom:12px}.catalog-card ul{padding-left:17px}.catalog-card li{font-size:11px;line-height:1.55;margin:7px 0;color:#49566a}.catalog-card b{color:var(--navy)}.catalog-card.fixed{border-top:4px solid var(--red)}.catalog-card.relative{border-top:4px solid #225ee7}.catalog-card.recurring{border-top:4px solid #b85b00}.catalog-card.contract{border-top:4px solid #16845b}.field input,.field select{width:100%;padding:10px 11px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--navy);font:inherit}.official-range{background:var(--red)!important}.official-range em{color:var(--red)!important}.calc.official-calc{border-left:4px solid var(--red);background:#fff4f7}.calc.official-calc b{color:var(--red)}
+@media(max-width:900px){.catalog-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.catalog-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -51,6 +57,7 @@ main{width:min(1440px,90vw);margin:0 auto;padding:48px 0 80px}.legend{display:gr
 <div class="view-tabs" role="tablist" aria-label="일정 보기 방식">
   <button class="view-tab active" data-view="tableView" role="tab">일정표</button>
   <button class="view-tab" data-view="dateView" role="tab">달력</button>
+  <button class="view-tab" data-view="ganttView" role="tab">간트차트</button>
   <button class="view-tab" data-view="mapView" role="tab">연간 맵</button>
 </div>
 <section class="view-panel active" id="tableView" role="tabpanel">
@@ -61,7 +68,21 @@ main{width:min(1440px,90vw);margin:0 auto;padding:48px 0 80px}.legend{display:gr
   <p class="calendar-note">공식 기한은 정확한 날짜 칸에 표시하며, 날짜가 회사별로 달라지는 내부 업무는 각 월 하단의 ‘월간 권장 업무’로 구분합니다.</p>
   <div class="date-calendars" id="dateCalendars"></div>
 </section>
+<section class="view-panel" id="ganttView" role="tabpanel">
+  <p class="gantt-note">공식 기한은 정확한 날짜의 빨간 마커로, 내부 권장 업무는 시작일~종료일 막대로 표시합니다. <b id="ganttCount"></b></p>
+  <div class="gantt-viewport"><div class="gantt" id="ganttChart"></div></div>
+</section>
 <section class="view-panel" id="mapView" role="tabpanel"><div class="calendar" id="calendar"></div></section>
+<section class="official-catalog">
+  <div class="eyebrow">OFFICIAL DEADLINE TYPES</div><h2>공식일정은 고정일만 있는 것이 아닙니다</h2>
+  <p class="catalog-intro">공식 근거가 있는 기한을 고정일·회사 기준 상대기한·정기 의무·사건 발생형으로 구분했습니다.</p>
+  <div class="catalog-grid">
+    <article class="catalog-card fixed"><h3>① 2026 고정일</h3><ul><li><b>05.26</b> Class C Formal Application</li><li><b>05.28</b> EUDAMED 의무사용</li><li><b>07.01</b> KGMP 제2026-46호</li><li><b>09.26</b> Class C Written Agreement</li><li><b>11.28</b> 기존 Device UDI/DEV 등록</li></ul></article>
+    <article class="catalog-card relative"><h3>② 회사 날짜 기준</h3><ul><li>KGMP 정기심사: 인정서 만료 <b>90일 전</b></li><li>국내 품목갱신: 만료 <b>270~180일 전</b></li><li>PSUR·PER: 최근 승인일 기준 <b>최소 연 1회</b></li><li>CB/AO 신청·심사일: 계약서 일정 우선</li></ul></article>
+    <article class="catalog-card recurring"><h3>③ 정기 의무</h3><ul><li>KGMP: 최초심사 후 <b>3년 주기</b></li><li>MDSAP: 3년 인증주기 내 <b>매년 심사</b></li><li>Class C·D PSUR: <b>최소 매년</b></li><li>Class C·D PER: 필요 시, 최소 매년</li></ul></article>
+    <article class="catalog-card contract"><h3>④ 사건 발생형</h3><ul><li>IVDR 중대한 공중보건 위협: 인지 후 <b>2일</b></li><li>사망·예상치 못한 중대악화: <b>10일</b></li><li>기타 Serious Incident: <b>15일</b></li><li>MDSAP NC 계획 <b>15일</b>·Grade 4/5 증거 <b>30일</b></li></ul></article>
+  </div>
+</section>
 <section class="custom-panel">
   <div class="eyebrow">CUSTOM DEADLINE INPUT</div><h2>회사 인증정보로 일정 맞춤 계산</h2>
   <div class="custom-grid">
@@ -69,9 +90,14 @@ main{width:min(1440px,90vw);margin:0 auto;padding:48px 0 80px}.legend{display:gr
     <div class="field"><label for="isoDate">ISO 13485 인증서 만료일</label><input id="isoDate" type="date"></div>
     <div class="field"><label for="mdsapDate">MDSAP 인증서 만료일</label><input id="mdsapDate" type="date"></div>
     <div class="field"><label for="auditDate">다음 CB/AO 심사일</label><input id="auditDate" type="date"></div>
+    <div class="field"><label for="licenseDate">국내 품목 허가·인증 만료일</label><input id="licenseDate" type="date"></div>
+    <div class="field"><label for="psurDate">Class C/D PSUR 최근 승인일</label><input id="psurDate" type="date"></div>
+    <div class="field"><label for="incidentDate">IVDR Serious Incident 인지일</label><input id="incidentDate" type="date"></div>
+    <div class="field"><label for="incidentType">IVDR 보고 유형</label><select id="incidentType"><option value="15">일반 Serious Incident · 15일</option><option value="10">사망/예상치 못한 중대악화 · 10일</option><option value="2">중대한 공중보건 위협 · 2일</option></select></div>
+    <div class="field"><label for="auditEndDate">MDSAP 심사 종료일</label><input id="auditEndDate" type="date"></div>
   </div>
   <div class="calc-results" id="calcResults"></div>
-  <p class="custom-note">입력값은 브라우저에만 저장됩니다. 계산일은 내부 준비 목표이며 법정기한이 아닙니다. 실제 신청·심사 기한은 인증기관 및 계약 문서를 우선 적용하세요.</p>
+  <p class="custom-note">입력값은 브라우저에만 저장됩니다. 빨간 결과는 공식 규칙 기반 계산일, 일반 결과는 내부 준비 목표입니다. 제품 적용성·인증기관 계약·관할당국 지침을 함께 확인하세요.</p>
 </section>
 <section class="sources"><h2>OFFICIAL SOURCES</h2><div class="sources-grid">
 <a class="source" href="https://www.mfds.go.kr/brd/m_211/view.do?seq=14977" target="_blank" rel="noreferrer">MFDS — 의료기기 제조 및 품질관리 기준<small>제2026-46호 · 2026.07.01</small></a>
@@ -79,6 +105,9 @@ main{width:min(1440px,90vw);margin:0 auto;padding:48px 0 80px}.legend{display:gr
 <a class="source" href="https://health.ec.europa.eu/document/download/9aea934d-85b0-4118-92e0-ec6b7c8fdc95_de?filename=md_eudamed_tp-cert-devices_en.pdf" target="_blank" rel="noreferrer">European Commission — EUDAMED Transition Map<small>UDI/Device · NB/Certificates</small></a>
 <a class="source" href="https://www.iso.org/standard/59752.html" target="_blank" rel="noreferrer">ISO — ISO 13485:2016<small>2025년 재검토·현행 유지</small></a>
 <a class="source" href="https://www.mdsap.global/manufacturers/how-be-mdsap-audit-ready/what-should-i-expect-initial-audit" target="_blank" rel="noreferrer">MDSAP — Initial Audit & NC Timelines<small>15일·30일 및 AO 제출주기 안내</small></a>
+<a class="source" href="https://emedi.mfds.go.kr/msismext/emd/bif/renewalView.do" target="_blank" rel="noreferrer">MFDS — 의료기기 품목갱신<small>유효기간 만료 270~180일 전 신청</small></a>
+<a class="source" href="https://eur-lex.europa.eu/eli/reg/2017/746/oj" target="_blank" rel="noreferrer">EUR-Lex — Regulation (EU) 2017/746<small>PSUR·PER·Vigilance 공식 요구사항</small></a>
+<a class="source" href="https://www.mdsap.global/manufacturers/what-happens-after-i-have-mdsap-certification" target="_blank" rel="noreferrer">MDSAP — Certification Cycle<small>3년 주기·연간 Surveillance Audit</small></a>
 <a class="source" href="https://www.fda.gov/medical-devices/medical-device-single-audit-program-mdsap/mdsap-au-p0026-certificate-document-requirements" target="_blank" rel="noreferrer">FDA/MDSAP — AU P0026<small>Certification Document Requirements</small></a>
 </div><p class="footnote">주의: 이 캘린더는 공통 규제기한과 보수적인 내부 관리 권장일을 함께 보여주는 운영 도구입니다. NB·CB·AO 계약, 인증서, 제품 등급 및 회사 SOP에 기재된 날짜가 우선합니다.</p></section>
 </main>
@@ -116,6 +145,82 @@ const E=[
 [12,'ivdr','internal','','PMS·PMPF·PER·PSUR 연말 마감','제품별 주기에 따라 데이터 cut-off와 승인일 확정'],
 [12,'kgmp','internal','','KGMP 연간 문서 정합성 점검','SOP·기록·DMR/DHF·변경관리·교육문서의 최신성 확인'],
 [12,'mdsap','internal','','MDSAP 연간 Audit Readiness Close','열린 NC와 참여국 규제 요구사항 업데이트를 마감']
+];
+const D=[
+['kgmp','internal','2026-01-05','2026-01-09','적합인정 범위 기준선 확정','연간 운영계획'],
+['kgmp','internal','2026-01-12','2026-01-23','제조소·품목군·위수탁 변경계획 취합','연간 운영계획'],
+['kgmp','internal','2026-01-26','2026-01-30','외부문서목록·적용 고시 확인','연간 운영계획'],
+['kgmp','internal','2026-04-01','2026-04-03','상반기 Gap Assessment 계획 승인','상반기 점검'],
+['kgmp','internal','2026-04-06','2026-04-17','SOP·제조·검사·출하기록 샘플링','상반기 점검'],
+['kgmp','internal','2026-04-20','2026-04-24','Gap·부적합 분류 및 담당자 지정','상반기 점검'],
+['kgmp','internal','2026-04-27','2026-05-08','보완·CAPA 실행계획 수립','상반기 점검'],
+['kgmp','internal','2026-06-01','2026-06-12','경영검토 입력자료 취합','경영검토'],
+['kgmp','internal','2026-06-15','2026-06-19','품질목표·CAPA·불만·공급자 데이터 검토','경영검토'],
+['kgmp','internal','2026-06-22','2026-06-26','경영검토 안건·조치안 승인','경영검토'],
+['kgmp','official','2026-07-01','2026-07-01','KGMP 고시 제2026-46호 게시·시행','규정 변경'],
+['kgmp','internal','2026-07-02','2026-07-10','제2026-46호 영향평가','규정 변경'],
+['kgmp','internal','2026-07-13','2026-07-24','SOP·양식·외부문서목록 개정','규정 변경'],
+['kgmp','internal','2026-07-27','2026-07-31','개정사항 교육 및 효과 확인','규정 변경'],
+['kgmp','internal','2026-08-03','2026-08-14','제조소·공정·위수탁 변경내역 취합','변경관리'],
+['kgmp','internal','2026-08-17','2026-08-28','변경·추가심사 필요성 평가','변경관리'],
+['kgmp','internal','2026-10-01','2026-10-09','적합인정서 만료일·심사범위 확인','정기심사 준비'],
+['kgmp','internal','2026-10-12','2026-10-23','심사기관 일정·제출자료 확인','정기심사 준비'],
+['kgmp','internal','2026-12-01','2026-12-11','연간 QMS 문서 정합성 점검','연말 마감'],
+['kgmp','internal','2026-12-14','2026-12-23','미완료 CAPA·변경조치 마감','연말 마감'],
+
+['ivdr','internal','2026-02-02','2026-02-06','제품별 IVDR Class·Legacy 상태 확정','PMS·전환 기준선'],
+['ivdr','internal','2026-02-09','2026-02-20','PMS·PMPF·PER·PSUR 최근 승인일 취합','PMS·전환 기준선'],
+['ivdr','internal','2026-02-23','2026-02-27','제품별 2026 cut-off·승인일 등록','PMS·전환 기준선'],
+['ivdr','internal','2026-04-01','2026-04-10','Legacy 전환 증거목록·책임자 확정','Class C 전환'],
+['ivdr','internal','2026-04-13','2026-04-24','QMS·Technical Documentation Gap Review','Class C 전환'],
+['ivdr','internal','2026-04-27','2026-05-08','NB Application 패키지 보완','Class C 전환'],
+['ivdr','internal','2026-05-11','2026-05-22','최종 검토·서명·제출증거 확보','Class C 전환'],
+['ivdr','official','2026-05-26','2026-05-26','Class C Legacy IVD Formal Application','Class C 전환'],
+['ivdr','official','2026-05-28','2026-05-28','EUDAMED 4개 모듈 의무사용 시작','EUDAMED'],
+['ivdr','internal','2026-08-03','2026-08-14','NB Written Agreement 범위·제품목록 대조','Class C 계약'],
+['ivdr','internal','2026-08-17','2026-08-28','Surveillance 이전·계약조건 검토','Class C 계약'],
+['ivdr','internal','2026-08-31','2026-09-11','법무·RA·QA 최종 계약 검토','Class C 계약'],
+['ivdr','internal','2026-09-14','2026-09-23','서명 완료·계약 증거 보관','Class C 계약'],
+['ivdr','official','2026-09-26','2026-09-26','Class C Legacy IVD Written Agreement','Class C 계약'],
+['ivdr','internal','2026-10-01','2026-10-09','EUDAMED 대상 Device 목록 동결','EUDAMED'],
+['ivdr','internal','2026-10-12','2026-10-23','SRN·Basic UDI-DI·UDI-DI 데이터 검증','EUDAMED'],
+['ivdr','internal','2026-10-26','2026-11-06','UDI/DEV 시험등록·오류 보완','EUDAMED'],
+['ivdr','internal','2026-11-09','2026-11-20','최종 등록·제출증거 검토','EUDAMED'],
+['ivdr','official','2026-11-28','2026-11-28','기존 Device UDI/DEV 등록기한','EUDAMED'],
+['ivdr','internal','2026-12-01','2026-12-11','PMS·PMPF 데이터 cut-off','연말 PMS 마감'],
+['ivdr','internal','2026-12-14','2026-12-23','PER·PSUR 초안 검토 및 승인계획 확정','연말 PMS 마감'],
+
+['iso','internal','2026-01-05','2026-01-09','연간 QMS 목표·KPI 초안','연간 계획'],
+['iso','internal','2026-01-12','2026-01-16','내부심사·경영검토 연간계획 승인','연간 계획'],
+['iso','internal','2026-02-02','2026-02-13','직무별 필수교육·역량 Gap 확인','교육·역량'],
+['iso','internal','2026-02-16','2026-02-27','교육 실행·효과평가 기록 보완','교육·역량'],
+['iso','internal','2026-03-02','2026-03-13','Q1 CAPA·불만 Trend 분석','CAPA'],
+['iso','internal','2026-03-16','2026-03-27','CAPA 효과성 검토·미완료 조치 Escalation','CAPA'],
+['iso','internal','2026-05-04','2026-05-08','내부심사 범위·심사원 독립성 확정','내부심사'],
+['iso','internal','2026-05-11','2026-05-22','체크리스트·샘플링 계획 작성','내부심사'],
+['iso','internal','2026-06-01','2026-06-12','프로세스 내부심사 실행','내부심사'],
+['iso','internal','2026-06-15','2026-06-26','NC 발행·원인분석·시정조치 계획','내부심사'],
+['iso','internal','2026-07-06','2026-07-17','H1 KPI·CAPA·심사 결과 검토','성과 검토'],
+['iso','internal','2026-07-20','2026-07-31','경영층 조치·자원계획 승인','성과 검토'],
+['iso','internal','2026-09-01','2026-09-11','핵심 공급자 성과·위험 재평가','공급자 관리'],
+['iso','internal','2026-09-14','2026-09-25','품질협약·공급자 CAPA 후속조치','공급자 관리'],
+['iso','internal','2026-11-02','2026-11-13','연간 경영검토 입력자료 동결','경영검토'],
+['iso','internal','2026-11-16','2026-11-27','경영검토 보고서 초안·사전검토','경영검토'],
+['iso','internal','2026-12-01','2026-12-11','연간 경영검토 실시·결정 기록','경영검토'],
+['iso','internal','2026-12-14','2026-12-23','2027 품질목표·조치계획 승인','경영검토'],
+
+['mdsap','internal','2026-01-05','2026-01-16','AO Audit Programme·Scope·Site 확인','연간 계획'],
+['mdsap','internal','2026-03-02','2026-03-13','참여국 요구사항·QMS 절차 매핑','국가별 요구사항'],
+['mdsap','internal','2026-03-16','2026-03-27','매핑 Gap·문서 개정계획 수립','국가별 요구사항'],
+['mdsap','internal','2026-06-01','2026-06-05','Mock Audit 계획·심사원 배정','Mock Audit'],
+['mdsap','internal','2026-06-08','2026-06-19','MDSAP 프로세스 기반 Mock Audit','Mock Audit'],
+['mdsap','internal','2026-06-22','2026-07-03','Mock NC 원인분석·CAPA 계획','Mock Audit'],
+['mdsap','internal','2026-09-01','2026-09-11','NC 15일 대응 패키지 모의작성','NC 대응'],
+['mdsap','internal','2026-09-14','2026-09-25','Grade 4·5 이행증거 30일 대응훈련','NC 대응'],
+['mdsap','internal','2026-11-02','2026-11-13','차기 AO 심사일·인증주기 확인','재인증 준비'],
+['mdsap','internal','2026-11-16','2026-11-27','Site·Scope·참여국 변경사항 통보 검토','재인증 준비'],
+['mdsap','internal','2026-12-01','2026-12-11','열린 NC·CAPA·특별심사 이슈 마감','연말 준비'],
+['mdsap','internal','2026-12-14','2026-12-23','2027 Audit Readiness 계획 승인','연말 준비']
 ];
 let activeFilter='all';
 function visibleEvent(e,filter=activeFilter){return filter==='all'||filter===e[2]||filter===e[1]}
@@ -155,18 +260,32 @@ function renderDateCalendars(filter=activeFilter){
   root.appendChild(card)
  }
 }
-function renderAll(){renderMap();renderTable();renderDateCalendars()}
+function ganttPosition(date){const start=Date.UTC(2026,0,1),end=Date.UTC(2027,0,1),parts=date.split('-').map(Number),value=Date.UTC(parts[0],parts[1]-1,parts[2]);return (value-start)/(end-start)*100}
+function addDay(date){const d=new Date(date+'T12:00:00');d.setDate(d.getDate()+1);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+function shortDate(date){return date.slice(5).replace('-','.')}
+function visibleDetail(e,filter=activeFilter){return filter==='all'||filter===e[1]||filter===e[0]}
+function shiftISO(date,days){const d=new Date(date+'T12:00:00');d.setDate(d.getDate()+days);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+function plusYearISO(date){const d=new Date(date+'T12:00:00');d.setFullYear(d.getFullYear()+1);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+function getDynamicOfficial(){const rows=[],v=id=>document.getElementById(id)?.value||'';if(v('kgmpDate')){const d=shiftISO(v('kgmpDate'),-90);rows.push(['kgmp','official',d,d,'KGMP 정기심사 신청기한','인정서 만료 90일 전'])}if(v('licenseDate'))rows.push(['kgmp','official',shiftISO(v('licenseDate'),-270),shiftISO(v('licenseDate'),-180),'국내 의료기기 품목갱신 신청기간','유효기간 기준 270~180일 전']);if(v('psurDate')){const d=plusYearISO(v('psurDate'));rows.push(['ivdr','official',d,d,'Class C/D PSUR·PER 연간 갱신 기준일','최근 승인일 기준 최소 연 1회'])}if(v('incidentDate')){const days=Number(v('incidentType')||15),d=shiftISO(v('incidentDate'),days);rows.push(['ivdr','official',d,d,`IVDR Serious Incident 보고기한 · ${days}일`,'사건 인지일 기준'])}if(v('auditEndDate')){const d15=shiftISO(v('auditEndDate'),15),d30=shiftISO(v('auditEndDate'),30);rows.push(['mdsap','official',d15,d15,'MDSAP NC 조사·시정조치 계획 제출 권고','심사 종료 후 15일']);rows.push(['mdsap','official',d30,d30,'MDSAP Grade 4/5 이행증거 제출 권고','심사 종료 후 30일'])}return rows.filter(e=>e[3]>='2026-01-01'&&e[2]<='2026-12-31').map(e=>[e[0],e[1],e[2]<'2026-01-01'?'2026-01-01':e[2],e[3]>'2026-12-31'?'2026-12-31':e[3],e[4],e[5]])}
+function renderGantt(filter=activeFilter){
+ const root=document.getElementById('ganttChart');root.innerHTML='<div class="gantt-head"><div class="gantt-head-label">업무</div><div class="gantt-head-label">구분</div><div class="gantt-months">'+months.map((m,i)=>`<span>${String(i+1).padStart(2,'0')}</span>`).join('')+'</div></div>';
+ const order=['kgmp','ivdr','iso','mdsap'];let count=0;
+ const allRows=D.concat(getDynamicOfficial());order.forEach(sys=>{const rows=allRows.filter(e=>e[0]===sys&&visibleDetail(e,filter)).sort((a,b)=>a[2].localeCompare(b[2]));if(!rows.length)return;count+=rows.length;root.insertAdjacentHTML('beforeend',`<div class="gantt-group ${sys}">${sysName(sys)} · ${rows.length}개 세부 일정</div>`);rows.forEach(([system,type,start,end,title,parent])=>{const row=document.createElement('div');row.className=`gantt-row ${system}`;let mark='';const left=ganttPosition(start),right=ganttPosition(addDay(end)),width=Math.max(right-left,.7);if(type==='official'&&start===end){mark=`<div class="gantt-marker${left>78?' right':''}" style="left:${left}%"><em>${start}</em></div>`}else{mark=`<div class="gantt-bar${type==='official'?' official-range':''}${left>82?' right':''}" style="left:${left}%;width:${width}%" title="${start} ~ ${end}"><span></span><em>${shortDate(start)}–${shortDate(end)}</em></div>`}row.innerHTML=`<div class="gantt-task"><small>${sysName(system)} · ${parent}</small><b>${title}</b></div><div class="gantt-kind"><span class="type ${type}">${type==='official'?'공식 기한':'내부 권장'}</span></div><div class="gantt-track">${mark}</div>`;root.appendChild(row)});});
+ document.getElementById('ganttCount').textContent=`현재 표시: ${count}개 세부 일정`;
+ if(!count)root.insertAdjacentHTML('beforeend','<div class="gantt-empty">선택한 조건의 일정이 없습니다.</div>')
+}
+function renderAll(){renderMap();renderTable();renderDateCalendars();renderGantt()}
 function setFilter(filter){const button=document.querySelector(`.filter[data-filter="${filter}"]`);if(!button)return;document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));button.classList.add('active');activeFilter=filter;renderAll()}
 function setView(view){const button=document.querySelector(`.view-tab[data-view="${view}"]`);if(!button)return;document.querySelectorAll('.view-tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.view-panel').forEach(x=>x.classList.remove('active'));button.classList.add('active');document.getElementById(view).classList.add('active')}
 renderAll();
 document.querySelectorAll('.filter').forEach(b=>b.addEventListener('click',()=>setFilter(b.dataset.filter)));
 document.querySelectorAll('.view-tab').forEach(b=>b.addEventListener('click',()=>setView(b.dataset.view)));
 const query=new URLSearchParams(location.search);if(query.has('filter'))setFilter(query.get('filter'));if(query.has('view'))setView(query.get('view'));
-const fields=['kgmpDate','isoDate','mdsapDate','auditDate'];
+const fields=['kgmpDate','isoDate','mdsapDate','auditDate','licenseDate','psurDate','incidentDate','incidentType','auditEndDate'];
 function fmt(d){return d.toLocaleDateString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit'})}
 function minus(date,days){const d=new Date(date+'T12:00:00');d.setDate(d.getDate()-days);return d}
-function calc(){const out=document.getElementById('calcResults');out.innerHTML='';const rules={kgmpDate:['KGMP 내부 Gap Assessment',180],isoDate:['ISO 갱신 준비 착수',180],mdsapDate:['MDSAP 재인증 협의',270],auditDate:['심사 Readiness Review',60]};fields.forEach(id=>{const v=document.getElementById(id).value;localStorage.setItem('regmap-'+id,v);if(v){const [label,days]=rules[id];out.insertAdjacentHTML('beforeend',`<div class="calc">${label}<b>${fmt(minus(v,days))}</b>${days}일 전 내부 목표 · 기관 기한 아님</div>`)}})}
-fields.forEach(id=>{const el=document.getElementById(id);el.value=localStorage.getItem('regmap-'+id)||'';el.addEventListener('change',calc)});calc();
+function calc(){const out=document.getElementById('calcResults');out.innerHTML='';const rules={kgmpDate:['KGMP 내부 Gap Assessment',180],isoDate:['ISO 갱신 준비 착수',180],mdsapDate:['MDSAP 재인증 협의',270],auditDate:['심사 Readiness Review',60]};fields.forEach(id=>{const el=document.getElementById(id),v=el.value;localStorage.setItem('regmap-'+id,v);if(v&&rules[id]){const [label,days]=rules[id];out.insertAdjacentHTML('beforeend',`<div class="calc">${label}<b>${fmt(minus(v,days))}</b>${days}일 전 내부 목표 · 기관 기한 아님</div>`)}});const official=(label,date,note)=>out.insertAdjacentHTML('beforeend',`<div class="calc official-calc">${label}<b>${fmt(new Date(date+'T12:00:00'))}</b>${note}</div>`);const value=id=>document.getElementById(id).value;if(value('kgmpDate'))official('KGMP 정기심사 신청기한',shiftISO(value('kgmpDate'),-90),'인정서 만료 90일 전 · 적용 기준 확인');if(value('licenseDate')){official('품목갱신 신청 시작',shiftISO(value('licenseDate'),-270),'유효기간 만료 270일 전');official('품목갱신 신청 종료',shiftISO(value('licenseDate'),-180),'유효기간 만료 180일 전')}if(value('psurDate'))official('Class C/D PSUR·PER 연간 갱신 기준일',plusYearISO(value('psurDate')),'최근 승인일 기준 최소 연 1회');if(value('incidentDate')){const days=Number(value('incidentType')||15);official(`IVDR Serious Incident 보고기한 · ${days}일`,shiftISO(value('incidentDate'),days),'사건 인지일 기준')}if(value('auditEndDate')){official('MDSAP NC 계획 제출 권고',shiftISO(value('auditEndDate'),15),'공식 프로그램 안내 · 심사 종료 후 15일');official('MDSAP Grade 4/5 이행증거 권고',shiftISO(value('auditEndDate'),30),'공식 프로그램 안내 · 심사 종료 후 30일')}renderGantt()}
+fields.forEach(id=>{const el=document.getElementById(id),saved=localStorage.getItem('regmap-'+id);if(saved!==null)el.value=saved;el.addEventListener('change',calc)});calc();
 </script>
 </body>
 </html>
