@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IVDR 기술문서 작성 및 제출 흐름</title>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box}html,body{margin:0}body{background:#f7f5f2;color:#18243a;font-family:'Geist','Apple SD Gothic Neo','Noto Sans KR',sans-serif;padding:48px 32px;overflow-x:hidden}.page{width:min(1280px,100%);margin:auto}.eyebrow{font-family:'Geist Mono','Noto Sans Mono CJK KR',monospace;font-size:8px;font-weight:600;letter-spacing:.18em;color:#2864dc;text-transform:uppercase;margin:0 0 8px}.page h1{font-family:'Instrument Serif','Apple SD Gothic Neo','Noto Sans KR',serif;font-size:40px;font-weight:400;letter-spacing:-.02em;line-height:1.05;margin:0}.subtitle{max-width:880px;margin:12px 0 24px;color:#667085;font-size:13px;line-height:1.6}.scroll-note{display:none;color:#2864dc;font-size:10px;font-weight:600;margin:0 0 8px}.diagram-wrap{display:block;width:100%;max-width:100%;margin:0;overflow-x:auto;border-top:3px solid #18243a;border-bottom:1px solid #d8d4cf;background:#f7f5f2}.diagram-wrap svg{display:block;width:100%;min-width:960px;height:auto}.cards{display:grid;grid-template-columns:1.15fr .95fr .9fr;gap:12px;margin-top:20px}.card{background:#fff;border:1px solid #d8d4cf;border-radius:8px;padding:16px}.card .label{font-family:'Geist Mono','Noto Sans Mono CJK KR',monospace;font-size:8px;letter-spacing:.14em;color:#667085}.card h2{font-size:13px;margin:8px 0 6px}.card p{font-size:11px;line-height:1.55;color:#667085;margin:0}.card.accent{border-top:4px solid #7c3aed}.card.blue{border-top:4px solid #2864dc}.card.navy{border-top:4px solid #18243a}.footer{display:flex;justify-content:space-between;gap:16px;border-top:1px solid #d8d4cf;margin-top:20px;padding-top:12px;font-family:'Geist Mono','Noto Sans Mono CJK KR',monospace;font-size:8px;color:#667085}@media(max-width:720px){body{padding:28px 16px}.page h1{font-size:28px;word-break:keep-all}.subtitle{font-size:12px}.scroll-note{display:block}.cards{grid-template-columns:1fr}.footer{flex-direction:column}.diagram-wrap svg{width:800px;min-width:800px;margin-left:-200px;margin-right:200px}}
+  </style>
+</head>
+<body>
+<main class="page">
+  <p class="eyebrow">IVDR · Technical Documentation · Flowchart</p>
+  <h1>IVDR 기술문서 작성 및 제출 흐름</h1>
+  <p class="subtitle">제품 범위와 분류를 확정한 뒤 Annex II·III 문서를 작성하고, GSPR·Risk Management·Performance Evaluation·V&amp;V 근거를 연결하여 RA/QA 승인과 Notified Body 제출까지 관리하는 보수적 실무 흐름입니다.</p>
+  <p class="scroll-note">← 좌우로 밀어 전체 흐름 확인 →</p>
+
+  <figure class="diagram-wrap">
+    <svg viewBox="0 0 1280 720" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="ivdr-flow-title ivdr-flow-desc">
+      <title id="ivdr-flow-title">IVDR 기술문서 작성 및 제출 흐름</title>
+      <desc id="ivdr-flow-desc">제품 범위와 분류 확정에서 시작해 문서 계획, Annex II 초안, 규제 근거 통합, Annex III 작성, 제출 준비도 검토, 갭 보완, RA QA 승인과 Notified Body 제출, 통제본 유지관리로 이어지는 흐름도입니다.</desc>
+      <defs>
+        <marker id="ivdr-arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#667085"/></marker>
+        <marker id="ivdr-arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#7c3aed"/></marker>
+        <marker id="ivdr-arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><polygon points="0 0,8 3,0 6" fill="#2864dc"/></marker>
+      </defs>
+
+      <rect width="1280" height="720" fill="#f7f5f2"/>
+
+      <!-- Connectors are drawn before nodes -->
+      <path d="M640 72 V96" fill="none" stroke="#667085" stroke-width="1.2" marker-end="url(#ivdr-arrow)"/>
+      <path d="M640 152 V176" fill="none" stroke="#667085" stroke-width="1.2" marker-end="url(#ivdr-arrow)"/>
+      <path d="M640 232 V256" fill="none" stroke="#667085" stroke-width="1.2" marker-end="url(#ivdr-arrow)"/>
+      <path d="M640 312 V336" fill="none" stroke="#667085" stroke-width="1.2" marker-end="url(#ivdr-arrow)"/>
+      <path d="M640 392 V412" fill="none" stroke="#667085" stroke-width="1.2" marker-end="url(#ivdr-arrow)"/>
+      <path d="M640 508 V536" fill="none" stroke="#7c3aed" stroke-width="1.4" marker-end="url(#ivdr-arrow-accent)"/>
+      <path d="M640 592 V616" fill="none" stroke="#7c3aed" stroke-width="1.4" marker-end="url(#ivdr-arrow-accent)"/>
+
+      <!-- Not ready branch and correction loop -->
+      <path d="M780 460 H912" fill="none" stroke="#667085" stroke-width="1.2" marker-end="url(#ivdr-arrow)"/>
+      <path d="M1060 428 V204 H808" fill="none" stroke="#667085" stroke-width="1.2" marker-end="url(#ivdr-arrow)"/>
+      <rect x="816" y="444" width="64" height="12" rx="2" fill="#f7f5f2"/>
+      <text x="848" y="453" fill="#667085" font-size="8" font-family="'Geist Mono','Noto Sans Mono CJK KR',monospace" text-anchor="middle" letter-spacing=".08em">미충족</text>
+      <rect x="1068" y="304" width="104" height="16" rx="2" fill="#f7f5f2"/>
+      <text x="1120" y="316" fill="#667085" font-size="8" font-family="'Geist Mono','Noto Sans Mono CJK KR',monospace" text-anchor="middle">보완 · 재작성</text>
+
+      <!-- NB feedback loop -->
+      <path d="M480 564 H360 V284 H472" fill="none" stroke="#2864dc" stroke-width="1.2" stroke-dasharray="5 4" marker-end="url(#ivdr-arrow-link)"/>
+      <rect x="368" y="388" width="104" height="16" rx="2" fill="#f7f5f2"/>
+      <text x="420" y="400" fill="#2864dc" font-size="8" font-family="'Geist Mono','Noto Sans Mono CJK KR',monospace" text-anchor="middle">NB 질문 · 보완</text>
+
+      <!-- Decision labels -->
+      <rect x="600" y="516" width="80" height="12" rx="2" fill="#f7f5f2"/>
+      <text x="640" y="525" fill="#7c3aed" font-size="8" font-family="'Geist Mono','Noto Sans Mono CJK KR',monospace" text-anchor="middle" letter-spacing=".08em">충족</text>
+
+      <!-- 1 Start -->
+      <rect x="500" y="24" width="280" height="48" rx="24" fill="rgba(24,36,58,.04)" stroke="rgba(24,36,58,.34)" stroke-width="1"/>
+      <text x="640" y="48" fill="#18243a" font-size="12" font-weight="600" font-family="'Geist','Apple SD Gothic Neo','Noto Sans KR',sans-serif" text-anchor="middle">제품 범위·분류·Intended Purpose 확정</text>
+      <text x="640" y="62" fill="#667085" font-size="9" font-family="'Geist Mono','Noto Sans Mono CJK KR',monospace" text-anchor="middle">REGULATORY INPUT FREEZE</text>
+
+      <!-- 2 Plan -->
+      <rect x="480" y="96" width="320" height="56" rx="6" fill="#fff" stroke="#18243a" stroke-width="1"/>
+      <rect x="492" y="104" width="44" height="12" rx="2" fill="none" stroke="rgba(24,36,58,.38)" stroke-width=".8"/>
+      <text x="514" y="113" fill="#18243a" font-size="7" font-family="'Geist Mono',monospace" text-anchor="middle">PLAN</text>
+      <text x="640" y="124" fill="#18243a" font-size="12" font-weight="600" font-family="'Geist','Apple SD Gothic Neo','Noto Sans KR',sans-serif" text-anchor="middle">문서 구조·책임자·근거목록 계획</text>
+      <text x="640" y="140" fill="#667085" font-size="9" font-family="'Geist Mono','Noto Sans Mono CJK KR',monospace" text-anchor="middle">Annex II / III · owner · review gate · source index</text>
+
+      <!-- 3 Annex II -->
+      <rect x="480" y="176" width="320" height="56" rx="6" fill="#fff" stroke="#18243a" stroke-width="1"/>
+      <rect x="492" y="184" width="56" height="12" rx="2" fill="none" stroke="rgba(40,100,220,.48)" stroke-width=".8"/>
+      <text x="520" y="193" fill="#2864dc" font-size="7" font-family="'Geist Mono',monospace" text-anchor="middle">ANNEX II</text>
+      <text x="640" y="204" fill="#18243a" font-size="12" font-weight="600" font-family="'Geist','Apple SD Gothic Neo','Noto Sans KR',sans-serif" text-anchor="middle">핵심 Technical Documentation 초안</text>
+      <text x="640" y="220" fill="#667085" font-size="9" font-family="'Geist Mono','Noto Sans Mono CJK KR',monospace" text-anchor="middle">Device description · design/manufacturing · labeling</text>
+
+      <!-- 4 Evidence -->
+      <rect x="480" y="256" width="320" height="56" rx="6" fill="#fff" stroke="#18243a" stroke-width="1"/>
+      <rect x="492" y="264" width="64" height="12" rx="2" fill="none" stroke="rgba(124,58,237,.48)" stroke-width=".8"/>
+      <text x="524" y="273" fill="#7c3aed" font-size="7" font-family="'Geist Mono',monospace" text-anchor="middle">EVIDENCE</text>
+      <text x="640" y="284" fill="#18243a" font-size="12" font-weight="600" font-family="'Geist','Apple SD Gothic Neo','Noto Sans KR',sans-serif" text-anchor="middle">GSPR·Risk·Performance·V&amp;V 근거 통합</text>
+      <text x="640" y="300" fill="#667085" font-size="9" font-family="'Geist Mono','Noto Sans Mono CJK KR',monospace" text-anchor="middle">GSPR ↔ RMF ↔ PER ↔ Verification / Validation traceability</text>
+
+      <!-- 5 Annex III -->
+      <rect x="480" y="336" width="320" height="56" rx="6" fill="#fff" stroke="#18243a" stroke-width="1"/>
+      <rect x="492" y="344" width="60" height="12" rx="2" fill="none" stroke="rgba(40,100,220,.48)" stroke-width=".8"/>
+      <text x="522" y="353" fill="#2864dc" font-size="7" font-family="'Geist Mono',monospace" text-anchor="middle">ANNEX III</text>
+      <text x="640" y="364" fill="#18243a" font-size="12" font-weight="600" font-family="'Geist','Apple SD Gothic Neo','Noto Sans KR',sans-serif" text-anchor="middle">PMS·PMPF·Vigilance 체계 작성</text>
+      <text x="640" y="380" fill="#667085" font-size="9" font-family="'Geist Mono','Noto Sans Mono CJK KR',monospace" text-anchor="middle">PMS plan · PMPF plan/report · PSUR · trend &amp; vigilance</text>
+
+      <!-- 6 Decision -->
+      <polygon points="640,412 780,460 640,508 500,460" fill="#fff" stroke="#18243a" stroke-width="1.2"/>
+      <text x="640" y="454" fill="#18243a" font-size="12" font-weight="600" font-family="'Geist','Apple SD Gothic Neo','Noto Sans KR',sans-serif" text-anchor="middle">완전성·추적성·일관성</text>
+      <text x="640" y="470" fill="#18243a" font-size="12" font-weight="600" font-family="'Geist','Apple SD Gothic Neo','Noto Sans KR',sans-serif" text-anchor="middle">제출 준비도 충족?</text>
+
+      <!-- 7 Gap remediation -->
+      <rect x="920" y="428" width="280" height="64" rx="6" fill="rgba(24,36,58,.03)" stroke="#667085" stroke-width="1" stroke-dasharray="4 3"/>
+      <rect x="932" y="436" width="40" height="12" rx="2" fill="none" stroke="rgba(102,112,133,.5)" stroke-width=".8"/>
+      <text x="952" y="445" fill="#667085" font-size="7" font-family="'Geist Mono',monospace" text-anchor="middle">GAP</text>
+      <text x="1060" y="460" fill="#18243a" font-size="12" font-weight="600" font-family="'Geist','Apple SD Gothic Neo','Noto Sans KR',sans-serif" text-anchor="middle">Gap·불일치·Missing Info 보완</text>
+      <text x="1060" y="476" fill="#667085" font-size="9" font-family="'Geist Mono','Noto Sans Mono CJK KR',monospace" text-anchor="middle">owner · due date · CAPA / change control</text>
+
+      <!-- 8 Approval + submission: focal -->
+      <rect x="480" y="536" width="320" height="56" rx="6" fill="rgba(124,58,237,.08)" stroke="#7c3aed" stroke-width="1.2"/>
+      <rect x="492" y="544" width="72" height="12" rx="2" fill="none" stroke="rgba(124,58,237,.55)" stroke-width=".8"/>
+      <text x="528" y="553" fill="#7c3aed" font-size="7" font-family="'Geist Mono',monospace" text-anchor="middle">SUBMISSION</text>
+      <text x="640" y="564" fill="#18243a" font-size="12" font-weight="600" font-family="'Geist','Apple SD Gothic Neo','Noto Sans KR',sans-serif" text-anchor="middle">RA/QA 승인 · 통제본 발행 · NB 제출</text>
+      <text x="640" y="580" fill="#667085" font-size="9" font-family="'Geist Mono','Noto Sans Mono CJK KR',monospace" text-anchor="middle">approval signatures · document index · submission receipt</text>
+
+      <!-- 9 End -->
+      <rect x="500" y="616" width="280" height="48" rx="24" fill="rgba(40,100,220,.06)" stroke="#2864dc" stroke-width="1"/>
+      <text x="640" y="640" fill="#18243a" font-size="12" font-weight="600" font-family="'Geist','Apple SD Gothic Neo','Noto Sans KR',sans-serif" text-anchor="middle">승인 기준선 유지 · 변경관리 · PMS 업데이트</text>
+      <text x="640" y="654" fill="#2864dc" font-size="9" font-family="'Geist Mono','Noto Sans Mono CJK KR',monospace" text-anchor="middle">CONTROLLED LIFECYCLE</text>
+
+      <!-- Legend strip -->
+      <line x1="40" y1="684" x2="1240" y2="684" stroke="rgba(24,36,58,.14)" stroke-width=".8"/>
+      <text x="40" y="704" fill="#667085" font-size="8" font-family="'Geist Mono',monospace" letter-spacing=".14em">LEGEND</text>
+      <rect x="132" y="694" width="24" height="12" rx="6" fill="rgba(24,36,58,.04)" stroke="rgba(24,36,58,.34)" stroke-width="1"/>
+      <text x="164" y="704" fill="#667085" font-size="8" font-family="'Geist','Apple SD Gothic Neo','Noto Sans KR',sans-serif">시작·종료</text>
+      <rect x="260" y="694" width="24" height="12" rx="2" fill="#fff" stroke="#18243a" stroke-width="1"/>
+      <text x="292" y="704" fill="#667085" font-size="8" font-family="'Geist','Apple SD Gothic Neo','Noto Sans KR',sans-serif">작성 단계</text>
+      <polygon points="408,700 420,694 432,700 420,706" fill="#fff" stroke="#18243a" stroke-width="1"/>
+      <text x="444" y="704" fill="#667085" font-size="8" font-family="'Geist','Apple SD Gothic Neo','Noto Sans KR',sans-serif">검토 게이트</text>
+      <line x1="568" y1="700" x2="600" y2="700" stroke="#7c3aed" stroke-width="1.4" marker-end="url(#ivdr-arrow-accent)"/>
+      <text x="612" y="704" fill="#667085" font-size="8" font-family="'Geist','Apple SD Gothic Neo','Noto Sans KR',sans-serif">승인 경로</text>
+      <line x1="728" y1="700" x2="760" y2="700" stroke="#2864dc" stroke-width="1.2" stroke-dasharray="5 4" marker-end="url(#ivdr-arrow-link)"/>
+      <text x="772" y="704" fill="#667085" font-size="8" font-family="'Geist','Apple SD Gothic Neo','Noto Sans KR',sans-serif">NB 피드백</text>
+      <text x="1240" y="704" fill="#667085" font-size="8" font-family="'Geist Mono',monospace" text-anchor="end">NMH · REGULATORY AFFAIRS</text>
+    </svg>
+  </figure>
+
+  <section class="cards" aria-label="흐름도 적용 원칙">
+    <article class="card navy"><p class="label">DOCUMENT CONTROL</p><h2>초안보다 기준선 관리가 먼저</h2><p>문서별 Owner, Reviewer, Approver와 근거자료 버전을 먼저 고정합니다. 문서 상태와 제품·소프트웨어 버전이 어긋나면 제출 준비도를 충족하지 못한 것으로 처리합니다.</p></article>
+    <article class="card blue"><p class="label">TRACEABILITY</p><h2>주장은 근거로 연결</h2><p>Intended Purpose와 성능 주장을 GSPR, Risk Management, Performance Evaluation, Verification 및 Validation 결과로 추적 가능하게 연결합니다.</p></article>
+    <article class="card accent"><p class="label">NOTIFIED BODY READY</p><h2>질문은 통제된 변경으로 회수</h2><p>NB 질문·보완은 단순 답변으로 끝내지 않고 영향평가, 문서 개정, 재검토, 승인 및 제출이력으로 회수합니다.</p></article>
+  </section>
+
+  <footer class="footer"><span>IVDR Annex II·III 기반 운영 흐름 · 제품 등급·NB 계약·회사 SOP에 따라 조정 필요</span><span>작성·관리: NMH · Regulatory Affairs</span></footer>
+</main>
+</body>
+</html>
