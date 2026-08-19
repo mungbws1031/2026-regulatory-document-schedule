@@ -34,6 +34,7 @@ main{width:min(1440px,90vw);margin:0 auto;padding:48px 0 80px}.legend{display:gr
 @media(max-width:560px){.catalog-grid{grid-template-columns:1fr}}
 .view-tab,.filter{min-height:44px}
 .day.today{outline:3px solid var(--blue);outline-offset:-3px;background:#eef4ff;z-index:1}.today-badge{display:inline-block;margin-left:3px;border-radius:999px;background:var(--blue);color:#fff;padding:1px 4px;font-size:7px;font-weight:900;vertical-align:top}.gantt-months{position:relative}.gantt-today-head,.gantt-today-line{position:absolute;width:2px;background:#ffcc00;z-index:6;pointer-events:none}.gantt-today-head{top:0;bottom:0}.gantt-today-head em{position:absolute;top:3px;left:5px;background:#ffcc00;color:#18243a;border-radius:5px;padding:2px 5px;font-size:8px;font-style:normal;font-weight:900;white-space:nowrap}.gantt-today-head.right em{left:auto;right:5px}.gantt-today-line{top:0;bottom:0;box-shadow:0 0 0 1px rgba(24,36,58,.08)}.today-status{color:var(--blue);margin-left:8px;white-space:nowrap}
+.type.derived{color:#6d28d9;border-color:#c4b5fd;background:#f5f3ff}.template-toggle{display:flex;align-items:flex-start;gap:10px;margin:14px 0 2px;padding:12px 14px;border:1px solid #52627a;border-radius:12px;background:#202f48;color:#d8e0ec;font-size:12px;cursor:pointer}.template-toggle input{width:18px;height:18px;margin:0;accent-color:var(--red)}.template-toggle b{display:block;color:#fff;margin-bottom:2px}.template-toggle small{display:block;color:#afc0da}
 .site-footer{border-top:1px solid var(--line);background:#f0eeea;padding:30px max(5vw,32px);text-align:center;color:var(--muted)}.site-footer strong{display:block;color:var(--navy);font-size:15px}.site-footer p{margin:5px 0 0;font-size:12px}.site-footer small{display:block;max-width:760px;margin:14px auto 0;font-size:10px;line-height:1.6;color:#7a8493}
 </style>
 </head>
@@ -91,6 +92,7 @@ main{width:min(1440px,90vw);margin:0 auto;padding:48px 0 80px}.legend{display:gr
 </section>
 <section class="custom-panel">
   <div class="eyebrow">CUSTOM DEADLINE INPUT</div><h2>회사 인증정보로 일정 맞춤 계산</h2>
+  <label class="template-toggle" for="showTemplate"><input id="showTemplate" type="checkbox"><span><b>기본 예시 내부 일정 보기</b><small>날짜 입력 전 참고용 템플릿입니다. 회사가 승인한 확정 일정이 아닙니다.</small></span></label>
   <div class="custom-grid">
     <div class="field"><label for="kgmpDate">KGMP 인정서 만료일</label><input id="kgmpDate" type="date"></div>
     <div class="field"><label for="isoDate">ISO 13485 인증서 만료일</label><input id="isoDate" type="date"></div>
@@ -104,7 +106,7 @@ main{width:min(1440px,90vw);margin:0 auto;padding:48px 0 80px}.legend{display:gr
     <div class="field"><label for="appReleaseDate">IVD 앱 릴리스 목표일</label><input id="appReleaseDate" type="date"></div>
   </div>
   <div class="calc-results" id="calcResults"></div>
-  <p class="custom-note">입력값은 브라우저에만 저장됩니다. 빨간 결과는 공식 규칙 기반 계산일, 초록 결과는 프로그램 권고일, 일반 결과는 내부 준비 목표입니다. 계산일이 2026년에 해당하면 간트차트에 자동 반영됩니다.</p>
+  <p class="custom-note">입력 전에는 내부 권장 일정을 숨깁니다. 날짜를 입력하면 보라색 ‘회사 입력 기반’ 일정이 자동 생성됩니다. 빨간 결과는 공식 규칙 기반, 초록 결과는 프로그램 권고이며 입력값은 이 브라우저에만 저장됩니다.</p>
 </section>
 <section class="sources"><h2>OFFICIAL SOURCES</h2><div class="sources-grid">
 <a class="source" href="https://www.mfds.go.kr/brd/m_211/view.do?seq=14977" target="_blank" rel="noreferrer">MFDS — 일반 의료기기 제조 및 품질관리 기준<small>제2026-46호 · 2026.07.01 · IVD 별도 기준</small></a>
@@ -277,16 +279,21 @@ const D=[
 ['app','internal','2026-12-01','2026-12-11','PMS·버그·취약점·OS 업데이트 감시계획','유지보수'],
 ['app','internal','2026-12-14','2026-12-23','변경 영향평가·회귀시험·차기 릴리스 계획 승인','유지보수']
 ];
-let activeFilter='all',activeView='tableView';
-function visibleEvent(e,filter=activeFilter){return filter==='all'||filter===e[2]||filter===e[1]}
-function typeName(type){return type==='official'?'공식 기한':type==='guidance'?'프로그램 권고':'내부 권장'}
+let activeFilter='all',activeView='tableView',showTemplate=localStorage.getItem('regmap-show-template')==='true';
+function visibleEvent(e,filter=activeFilter){return filter==='all'||filter===e[2]||(filter==='internal'&&e[2]==='derived')||filter===e[1]}
+function typeName(type){return type==='official'?'공식 기한':type==='guidance'?'프로그램 권고':type==='derived'?'회사 입력 기반':'예시 내부 일정'}
+function getDisplayEvents(){
+ const base=E.filter(e=>e[2]!=='internal'||showTemplate);
+ const dynamic=getDynamicEntries().map(([sys,type,start,end,title,parent])=>{const month=Number(start.slice(5,7)),single=start===end,date=single?start.slice(5).replace('-','.'):'',range=single?start:`${start} ~ ${end}`;return [month,sys,type,date,title,`${range} · ${parent}`]});
+ return base.concat(dynamic)
+}
 function renderMap(filter=activeFilter){
- const cal=document.getElementById('calendar');cal.innerHTML='';
+ const cal=document.getElementById('calendar'),events=getDisplayEvents();cal.innerHTML='';
  for(let m=1;m<=12;m++){
   const box=document.createElement('article');box.className='month';
   box.innerHTML=`<div class="month-head"><span class="month-num">${String(m).padStart(2,'0')}</span><span class="month-name">${months[m-1]} · 2026</span></div><div class="event-list"></div><div class="empty">선택한 조건의 일정이 없습니다.</div>`;
   const list=box.querySelector('.event-list');let shown=0;
-  E.filter(e=>e[0]===m).forEach(e=>{const[,sys,type,date,title,desc]=e;if(!visibleEvent(e,filter))return;shown++;const el=document.createElement('div');el.className=`event ${sys}`;el.innerHTML=`<div class="event-top"><span class="sys">${sysName(sys)}</span><span class="type ${type}">${typeName(type)}</span>${date?`<time>2026.${date}</time>`:''}</div><h4>${title}</h4><p>${desc}</p>`;list.appendChild(el)});
+  events.filter(e=>e[0]===m).forEach(e=>{const[,sys,type,date,title,desc]=e;if(!visibleEvent(e,filter))return;shown++;const el=document.createElement('div');el.className=`event ${sys}`;el.innerHTML=`<div class="event-top"><span class="sys">${sysName(sys)}</span><span class="type ${type}">${typeName(type)}</span>${date?`<time>2026.${date}</time>`:''}</div><h4>${title}</h4><p>${desc}</p>`;list.appendChild(el)});
   if(!shown)box.querySelector('.empty').style.display='block';cal.appendChild(box)
  }
 }
@@ -294,13 +301,13 @@ function sysName(sys){return sys==='iso'?'ISO 13485':sys==='app'?'APP / IVD MDSW
 function shortTitle(title){const labels={'IVDD 자가선언→IVDR Class C Formal Application':'Class C 신청','EUDAMED 첫 4개 모듈 의무사용 시작':'EUDAMED 의무화','일반 의료기기 GMP 고시 제2026-46호 시행':'GMP 고시 시행','IVDD 자가선언→IVDR Class C Written Agreement':'NB 서면계약','경과대상 Device UDI/DEV 등록기한':'UDI/DEV 등록'};return labels[title]||title}
 function renderTable(filter=activeFilter){
  const body=document.getElementById('scheduleBody');body.innerHTML='';
- const rows=E.filter(e=>visibleEvent(e,filter)).sort((a,b)=>a[0]-b[0]||((a[3]||'99.99').localeCompare(b[3]||'99.99')));
+ const rows=getDisplayEvents().filter(e=>visibleEvent(e,filter)).sort((a,b)=>a[0]-b[0]||((a[3]||'99.99').localeCompare(b[3]||'99.99')));
  rows.forEach(([month,sys,type,date,title,desc])=>{const tr=document.createElement('tr');tr.className=sys;tr.innerHTML=`<td class="schedule-date">${date?`2026.${date}`:`2026.${String(month).padStart(2,'0')} · 월간`}</td><td><span class="type ${type}">${typeName(type)}</span></td><td><span class="system-label">${sysName(sys)}</span></td><td class="schedule-title">${title}</td><td class="schedule-desc">${desc}</td>`;body.appendChild(tr)});
- document.getElementById('resultCount').textContent=`표시 일정 ${rows.length}건`;
+ document.getElementById('resultCount').textContent=rows.length?`표시 일정 ${rows.length}건`:'표시 일정 0건 · 회사 날짜를 입력하면 내부 권장 일정이 생성됩니다.';
 }
 function localISO(date=new Date()){return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`}
 function renderDateCalendars(filter=activeFilter){
- const root=document.getElementById('dateCalendars'),today=localISO(),todayInRange=today.startsWith('2026-');root.innerHTML='';
+ const root=document.getElementById('dateCalendars'),today=localISO(),todayInRange=today.startsWith('2026-'),events=getDisplayEvents();root.innerHTML='';
  document.getElementById('calendarToday').textContent=todayInRange?`오늘 ${today.replaceAll('-','.')}`:`오늘 ${today.replaceAll('-','.')} · 2026년 범위 밖`;
  for(let m=1;m<=12;m++){
   const card=document.createElement('article');card.className='date-month';
@@ -309,11 +316,11 @@ function renderDateCalendars(filter=activeFilter){
   for(let i=0;i<first;i++){const blank=document.createElement('div');blank.className='day blank';days.appendChild(blank)}
   for(let day=1;day<=last;day++){
    const cell=document.createElement('div'),cellDate=`2026-${String(m).padStart(2,'0')}-${String(day).padStart(2,'0')}`;const weekday=new Date(2026,m-1,day).getDay();cell.className=`day${weekday===0?' sunday':''}${cellDate===today?' today':''}`;cell.dataset.date=cellDate;cell.innerHTML=`<span class="day-num">${day}</span>${cellDate===today?'<span class="today-badge">오늘</span>':''}`;
-   E.filter(e=>e[0]===m&&e[2]==='official'&&e[3]&&Number(e[3].split('.')[1])===day&&visibleEvent(e,filter)).forEach(e=>{cell.classList.add('has-event');cell.insertAdjacentHTML('beforeend',`<span class="day-event">${sysName(e[1])}<br>${shortTitle(e[4])}</span>`)});days.appendChild(cell)
+   events.filter(e=>e[0]===m&&e[2]==='official'&&e[3]&&Number(e[3].split('.')[1])===day&&visibleEvent(e,filter)).forEach(e=>{cell.classList.add('has-event');cell.insertAdjacentHTML('beforeend',`<span class="day-event">${sysName(e[1])}<br>${shortTitle(e[4])}</span>`)});days.appendChild(cell)
   }
-  const tasks=card.querySelector('.month-tasks');const exact=E.filter(e=>e[0]===m&&e[2]==='official'&&visibleEvent(e,filter));const monthly=E.filter(e=>e[0]===m&&e[2]==='internal'&&visibleEvent(e,filter));
+  const tasks=card.querySelector('.month-tasks');const exact=events.filter(e=>e[0]===m&&e[2]==='official'&&e[3]&&visibleEvent(e,filter));const monthly=events.filter(e=>e[0]===m&&!(e[2]==='official'&&e[3])&&visibleEvent(e,filter));
   exact.forEach(e=>tasks.insertAdjacentHTML('beforeend',`<div class="month-task ${e[1]}"><i></i><span><b>2026.${e[3]} · ${sysName(e[1])}</b><br>${e[4]}</span></div>`));
-  monthly.forEach(e=>tasks.insertAdjacentHTML('beforeend',`<div class="month-task ${e[1]}"><i></i><span><b>${sysName(e[1])} · 내부 권장</b><br>${e[4]}</span></div>`));
+  monthly.forEach(e=>tasks.insertAdjacentHTML('beforeend',`<div class="month-task ${e[1]}"><i></i><span><b>${sysName(e[1])} · ${typeName(e[2])}</b><br>${e[4]}${e[5]?`<br><small>${e[5]}</small>`:''}</span></div>`));
   if(!exact.length&&!monthly.length)tasks.insertAdjacentHTML('beforeend','<div class="month-task"><span>선택한 조건의 일정 없음</span></div>');
   root.appendChild(card)
  }
@@ -321,11 +328,23 @@ function renderDateCalendars(filter=activeFilter){
 function ganttPosition(date){const [year,month,day]=date.split('-').map(Number);if(year<2026)return 0;if(year>2026)return 100;const daysInMonth=new Date(Date.UTC(year,month,0)).getUTCDate();return ((month-1)+(day-1)/daysInMonth)/12*100}
 function addDay(date){const d=new Date(date+'T12:00:00');d.setDate(d.getDate()+1);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
 function shortDate(date){return date.slice(5).replace('-','.')}
-function visibleDetail(e,filter=activeFilter){return filter==='all'||filter===e[1]||filter===e[0]}
+function visibleDetail(e,filter=activeFilter){return filter==='all'||filter===e[1]||(filter==='internal'&&e[1]==='derived')||filter===e[0]}
 function shiftISO(date,days){const d=new Date(date+'T12:00:00');d.setDate(d.getDate()+days);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
 function shiftMonthsISO(date,months){const [year,month,day]=date.split('-').map(Number),first=new Date(Date.UTC(year,month-1+months,1)),last=new Date(Date.UTC(first.getUTCFullYear(),first.getUTCMonth()+1,0)).getUTCDate();first.setUTCDate(Math.min(day,last));return `${first.getUTCFullYear()}-${String(first.getUTCMonth()+1).padStart(2,'0')}-${String(first.getUTCDate()).padStart(2,'0')}`}
 function plusYearISO(date){const d=new Date(date+'T12:00:00');d.setFullYear(d.getFullYear()+1);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
-function getDynamicEntries(){const rows=[],v=id=>document.getElementById(id)?.value||'';if(v('kgmpDate')){const d=shiftMonthsISO(v('kgmpDate'),-3);rows.push(['kgmp','official',d,d,'KGMP 정기심사 신청기한','인정서 만료 3개월 전까지'])}if(v('licenseDate'))rows.push(['kgmp','official',shiftISO(v('licenseDate'),-270),shiftISO(v('licenseDate'),-180),'국내 의료기기 품목갱신 신청기간','유효기간 기준 270~180일 전']);if(v('psurDate')){const d=plusYearISO(v('psurDate'));rows.push(['ivdr','official',d,d,'Class C/D PSUR·PER 다음 연간 업데이트 관리일','산출물별 최근 업데이트일 기준 · 같은 날짜로 묶으라는 규정 아님'])}if(v('incidentDate')){const days=Number(v('incidentType')||15),d=shiftISO(v('incidentDate'),days);rows.push(['ivdr','official',d,d,`IVDR Serious Incident 최장 보고기한 · ${days}일`,'즉시 보고하되 인지일로부터 해당 일수를 넘기지 않음'])}if(v('auditEndDate')){const d15=shiftISO(v('auditEndDate'),15),d30=shiftISO(v('auditEndDate'),30);rows.push(['mdsap','guidance',d15,d15,'MDSAP NC 조사·시정조치 계획 제출 권고','심사 종료 후 15 calendar days']);rows.push(['mdsap','guidance',d30,d30,'MDSAP Grade 4/5 이행증거 제출 권고','심사 종료 후 30 calendar days'])}if(v('appReleaseDate')){const r=v('appReleaseDate');rows.push(['app','internal',shiftISO(r,-270),shiftISO(r,-241),'앱 Intended Purpose·IVD MDSW 범위 확정','릴리스 역산']);rows.push(['app','internal',shiftISO(r,-240),shiftISO(r,-181),'사용자·시스템·소프트웨어 요구사항 기준선','릴리스 역산']);rows.push(['app','internal',shiftISO(r,-180),shiftISO(r,-121),'알고리즘·아키텍처·위험통제 Design Freeze','릴리스 역산']);rows.push(['app','internal',shiftISO(r,-120),shiftISO(r,-31),'계산·해석·통합·사용적합성 V&V','릴리스 역산']);rows.push(['app','internal',shiftISO(r,-30),shiftISO(r,-1),'기술문서·추적성·릴리스 승인','릴리스 역산'])}return rows.filter(e=>e[3]>='2026-01-01'&&e[2]<='2026-12-31').map(e=>[e[0],e[1],e[2]<'2026-01-01'?'2026-01-01':e[2],e[3]>'2026-12-31'?'2026-12-31':e[3],e[4],e[5]])}
+function getDynamicEntries(){
+ const rows=[],v=id=>document.getElementById(id)?.value||'',add=(sys,type,start,end,title,parent)=>rows.push([sys,type,start,end,title,parent]);
+ if(v('kgmpDate')){const r=v('kgmpDate'),d=shiftMonthsISO(r,-3);add('kgmp','official',d,d,'KGMP 정기심사 신청기한','인정서 만료 3개월 전까지');add('kgmp','derived',shiftISO(r,-180),shiftISO(r,-121),'KGMP Gap Assessment·범위 확인','인정서 만료일 역산');add('kgmp','derived',shiftISO(r,-120),shiftISO(r,-91),'SOP·제조·검사 기록 보완','인정서 만료일 역산');add('kgmp','derived',shiftISO(r,-90),shiftISO(r,-1),'정기심사 제출·보완·현장심사 대응','인정서 만료일 역산')}
+ if(v('isoDate')){const r=v('isoDate');add('iso','derived',shiftISO(r,-180),shiftISO(r,-121),'ISO 13485 인증범위·QMS Gap Review','인증서 만료일 역산');add('iso','derived',shiftISO(r,-120),shiftISO(r,-61),'내부심사·CAPA·경영검토 완료','인증서 만료일 역산');add('iso','derived',shiftISO(r,-60),shiftISO(r,-1),'CB 갱신심사 자료·질의·NC 대응','인증서 만료일 역산')}
+ if(v('mdsapDate')){const r=v('mdsapDate');add('mdsap','derived',shiftISO(r,-270),shiftISO(r,-181),'AO 재인증 범위·Site·참여국 협의','인증서 만료일 역산');add('mdsap','derived',shiftISO(r,-180),shiftISO(r,-121),'MDSAP 프로세스·국가별 요구 Gap Review','인증서 만료일 역산');add('mdsap','derived',shiftISO(r,-120),shiftISO(r,-61),'Mock Audit·CAPA 실행','인증서 만료일 역산');add('mdsap','derived',shiftISO(r,-60),shiftISO(r,-1),'재인증 심사자료·NC 대응 준비','인증서 만료일 역산')}
+ if(v('auditDate')){const r=v('auditDate');add('iso','derived',shiftISO(r,-60),shiftISO(r,-31),'CB/AO 심사 Readiness Review','심사일 역산');add('iso','derived',shiftISO(r,-30),shiftISO(r,-15),'심사 증거자료 동결·책임자 확인','심사일 역산');add('iso','derived',shiftISO(r,-14),shiftISO(r,-1),'최종 Mock Interview·현장 준비','심사일 역산')}
+ if(v('licenseDate'))add('kgmp','official',shiftISO(v('licenseDate'),-270),shiftISO(v('licenseDate'),-180),'국내 의료기기 품목갱신 신청기간','유효기간 기준 270~180일 전');
+ if(v('psurDate')){const d=plusYearISO(v('psurDate'));add('ivdr','derived',shiftISO(d,-90),shiftISO(d,-31),'PMS·PMPF·성능 데이터 Cut-off','PSUR·PER 기준일 역산');add('ivdr','derived',shiftISO(d,-30),shiftISO(d,-1),'PSUR·PER 작성·검토·승인','PSUR·PER 기준일 역산');add('ivdr','official',d,d,'Class C/D PSUR·PER 다음 연간 업데이트 관리일','산출물별 최근 업데이트일 기준')}
+ if(v('incidentDate')){const days=Number(v('incidentType')||15),d=shiftISO(v('incidentDate'),days);add('ivdr','official',d,d,`IVDR Serious Incident 최장 보고기한 · ${days}일`,'즉시 보고하되 해당 일수를 넘기지 않음')}
+ if(v('auditEndDate')){const d15=shiftISO(v('auditEndDate'),15),d30=shiftISO(v('auditEndDate'),30);add('mdsap','guidance',d15,d15,'MDSAP NC 조사·시정조치 계획 제출 권고','심사 종료 후 15 calendar days');add('mdsap','guidance',d30,d30,'MDSAP Grade 4/5 이행증거 제출 권고','심사 종료 후 30 calendar days')}
+ if(v('appReleaseDate')){const r=v('appReleaseDate');add('app','derived',shiftISO(r,-270),shiftISO(r,-241),'앱 Intended Purpose·IVD MDSW 범위 확정','릴리스 역산');add('app','derived',shiftISO(r,-240),shiftISO(r,-181),'사용자·시스템·소프트웨어 요구사항 기준선','릴리스 역산');add('app','derived',shiftISO(r,-180),shiftISO(r,-121),'알고리즘·아키텍처·위험통제 Design Freeze','릴리스 역산');add('app','derived',shiftISO(r,-120),shiftISO(r,-31),'계산·해석·통합·사용적합성 V&V','릴리스 역산');add('app','derived',shiftISO(r,-30),shiftISO(r,-1),'기술문서·추적성·릴리스 승인','릴리스 역산')}
+ return rows.filter(e=>e[3]>='2026-01-01'&&e[2]<='2026-12-31').map(e=>[e[0],e[1],e[2]<'2026-01-01'?'2026-01-01':e[2],e[3]>'2026-12-31'?'2026-12-31':e[3],e[4],e[5]])
+}
 function renderGantt(filter=activeFilter){
  const root=document.getElementById('ganttChart'),today=localISO(),todayInRange=today.startsWith('2026-'),todayLeft=todayInRange?ganttPosition(today):0,todayClass=todayLeft>78?' right':'';
  const todayHead=todayInRange?`<div class="gantt-today-head${todayClass}" style="left:${todayLeft}%"><em>오늘 ${shortDate(today)}</em></div>`:'';
@@ -333,9 +352,9 @@ function renderGantt(filter=activeFilter){
  document.getElementById('ganttToday').textContent=todayInRange?`오늘 ${today.replaceAll('-','.')}`:`오늘 ${today.replaceAll('-','.')} · 2026년 범위 밖`;
  const order=['kgmp','ivdr','iso','mdsap','app'];let count=0;
  const todayLine=todayInRange?`<div class="gantt-today-line" style="left:${todayLeft}%"></div>`:'';
- const allRows=D.concat(getDynamicEntries());order.forEach(sys=>{const rows=allRows.filter(e=>e[0]===sys&&visibleDetail(e,filter)).sort((a,b)=>a[2].localeCompare(b[2]));if(!rows.length)return;count+=rows.length;root.insertAdjacentHTML('beforeend',`<div class="gantt-group ${sys}">${sysName(sys)} · ${rows.length}개 세부 일정</div>`);rows.forEach(([system,type,start,end,title,parent])=>{const row=document.createElement('div');row.className=`gantt-row ${system}`;let mark='';const left=ganttPosition(start),right=ganttPosition(addDay(end)),width=Math.max(right-left,.7);if((type==='official'||type==='guidance')&&start===end){mark=`<div class="gantt-marker${type==='guidance'?' guidance':''}${left>78?' right':''}" style="left:${left}%"><em>${start}</em></div>`}else{mark=`<div class="gantt-bar${type==='official'?' official-range':''}${left>82?' right':''}" style="left:${left}%;width:${width}%" title="${start} ~ ${end}"><span></span><em>${shortDate(start)}–${shortDate(end)}</em></div>`}row.innerHTML=`<div class="gantt-task"><small>${sysName(system)} · ${parent}</small><b>${title}</b></div><div class="gantt-kind"><span class="type ${type}">${typeName(type)}</span></div><div class="gantt-track">${todayLine}${mark}</div>`;root.appendChild(row)});});
+ const baseRows=showTemplate?D:D.filter(e=>e[1]!=='internal'),allRows=baseRows.concat(getDynamicEntries());order.forEach(sys=>{const rows=allRows.filter(e=>e[0]===sys&&visibleDetail(e,filter)).sort((a,b)=>a[2].localeCompare(b[2]));if(!rows.length)return;count+=rows.length;root.insertAdjacentHTML('beforeend',`<div class="gantt-group ${sys}">${sysName(sys)} · ${rows.length}개 세부 일정</div>`);rows.forEach(([system,type,start,end,title,parent])=>{const row=document.createElement('div');row.className=`gantt-row ${system}`;let mark='';const left=ganttPosition(start),right=ganttPosition(addDay(end)),width=Math.max(right-left,.7);if((type==='official'||type==='guidance')&&start===end){mark=`<div class="gantt-marker${type==='guidance'?' guidance':''}${left>78?' right':''}" style="left:${left}%"><em>${start}</em></div>`}else{mark=`<div class="gantt-bar${type==='official'?' official-range':''}${left>82?' right':''}" style="left:${left}%;width:${width}%" title="${start} ~ ${end}"><span></span><em>${shortDate(start)}–${shortDate(end)}</em></div>`}row.innerHTML=`<div class="gantt-task"><small>${sysName(system)} · ${parent}</small><b>${title}</b></div><div class="gantt-kind"><span class="type ${type}">${typeName(type)}</span></div><div class="gantt-track">${todayLine}${mark}</div>`;root.appendChild(row)});});
  document.getElementById('ganttCount').textContent=`현재 표시: ${count}개 세부 일정`;
- if(!count)root.insertAdjacentHTML('beforeend','<div class="gantt-empty">선택한 조건의 일정이 없습니다.</div>')
+ if(!count)root.insertAdjacentHTML('beforeend',`<div class="gantt-empty">${filter==='internal'?'회사 날짜를 입력하면 내부 권장 일정이 생성됩니다.':'선택한 조건의 일정이 없습니다.'}</div>`)
 }
 function renderAll(){renderMap();renderTable();renderDateCalendars();renderGantt()}
 function setFilter(filter){const button=document.querySelector(`.filter[data-filter="${filter}"]`);if(!button)return;document.querySelectorAll('.filter').forEach(x=>{x.classList.remove('active');x.setAttribute('aria-pressed',String(x===button))});button.classList.add('active');activeFilter=filter;renderAll()}
@@ -346,10 +365,11 @@ setFilter(activeFilter);setView('tableView');
 document.querySelectorAll('.filter').forEach(b=>b.addEventListener('click',()=>{setFilter(b.dataset.filter);syncURL()}));
 document.querySelectorAll('.view-tab').forEach(b=>b.addEventListener('click',()=>{setView(b.dataset.view);syncURL()}));
 const query=new URLSearchParams(location.search);if(query.has('filter'))setFilter(query.get('filter'));if(query.has('view'))setView(query.get('view'));
+const templateToggle=document.getElementById('showTemplate');templateToggle.checked=showTemplate;templateToggle.addEventListener('change',()=>{showTemplate=templateToggle.checked;localStorage.setItem('regmap-show-template',String(showTemplate));renderAll()});
 const fields=['kgmpDate','isoDate','mdsapDate','auditDate','licenseDate','psurDate','incidentDate','incidentType','auditEndDate','appReleaseDate'];
 function fmt(d){return d.toLocaleDateString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit'})}
 function minus(date,days){const d=new Date(date+'T12:00:00');d.setDate(d.getDate()-days);return d}
-function calc(){const out=document.getElementById('calcResults');out.innerHTML='';const rules={kgmpDate:['KGMP 내부 Gap Assessment',180],isoDate:['ISO 갱신 준비 착수',180],mdsapDate:['MDSAP 재인증 협의',270],auditDate:['심사 Readiness Review',60],appReleaseDate:['IVD 앱 Intended Purpose·규제범위 확정',270]};fields.forEach(id=>{const el=document.getElementById(id),v=el.value;localStorage.setItem('regmap-'+id,v);if(v&&rules[id]){const [label,days]=rules[id];out.insertAdjacentHTML('beforeend',`<div class="calc">${label}<b>${fmt(minus(v,days))}</b>${days}일 전 내부 목표 · 기관 기한 아님</div>`)}});const official=(label,date,note)=>out.insertAdjacentHTML('beforeend',`<div class="calc official-calc">${label}<b>${fmt(new Date(date+'T12:00:00'))}</b>${note}</div>`),guidance=(label,date,note)=>out.insertAdjacentHTML('beforeend',`<div class="calc guidance-calc">${label}<b>${fmt(new Date(date+'T12:00:00'))}</b>${note}</div>`);const value=id=>document.getElementById(id).value;if(value('kgmpDate'))official('KGMP 정기심사 신청기한',shiftMonthsISO(value('kgmpDate'),-3),'인정서 만료 3개월 전까지 · 체외진단 기준 제7조제3항');if(value('licenseDate')){official('품목갱신 신청 시작',shiftISO(value('licenseDate'),-270),'유효기간 만료 270일 전');official('품목갱신 신청 종료',shiftISO(value('licenseDate'),-180),'유효기간 만료 180일 전')}if(value('psurDate'))official('Class C/D PSUR·PER 다음 연간 업데이트 관리일',plusYearISO(value('psurDate')),'산출물별 최근 업데이트일 기준 · 같은 날짜로 묶으라는 규정 아님');if(value('incidentDate')){const days=Number(value('incidentType')||15);official(`IVDR Serious Incident 최장 보고기한 · ${days}일`,shiftISO(value('incidentDate'),days),'즉시 보고하되 제조업체 인지일로부터 해당 일수를 넘기지 않음')}if(value('auditEndDate')){guidance('MDSAP NC 계획 제출 권고',shiftISO(value('auditEndDate'),15),'공식 프로그램 권고 · 심사 종료 후 15 calendar days');guidance('MDSAP Grade 4/5 이행증거 권고',shiftISO(value('auditEndDate'),30),'공식 프로그램 권고 · 심사 종료 후 30 calendar days')}renderGantt()}
+function calc(){const out=document.getElementById('calcResults');out.innerHTML='';const rules={kgmpDate:['KGMP 내부 Gap Assessment',180],isoDate:['ISO 갱신 준비 착수',180],mdsapDate:['MDSAP 재인증 협의',270],auditDate:['심사 Readiness Review',60],appReleaseDate:['IVD 앱 Intended Purpose·규제범위 확정',270]};fields.forEach(id=>{const el=document.getElementById(id),v=el.value;localStorage.setItem('regmap-'+id,v);if(v&&rules[id]){const [label,days]=rules[id];out.insertAdjacentHTML('beforeend',`<div class="calc">${label}<b>${fmt(minus(v,days))}</b>${days}일 전 내부 목표 · 기관 기한 아님</div>`)}});const official=(label,date,note)=>out.insertAdjacentHTML('beforeend',`<div class="calc official-calc">${label}<b>${fmt(new Date(date+'T12:00:00'))}</b>${note}</div>`),guidance=(label,date,note)=>out.insertAdjacentHTML('beforeend',`<div class="calc guidance-calc">${label}<b>${fmt(new Date(date+'T12:00:00'))}</b>${note}</div>`);const value=id=>document.getElementById(id).value;if(value('kgmpDate'))official('KGMP 정기심사 신청기한',shiftMonthsISO(value('kgmpDate'),-3),'인정서 만료 3개월 전까지 · 체외진단 기준 제7조제3항');if(value('licenseDate')){official('품목갱신 신청 시작',shiftISO(value('licenseDate'),-270),'유효기간 만료 270일 전');official('품목갱신 신청 종료',shiftISO(value('licenseDate'),-180),'유효기간 만료 180일 전')}if(value('psurDate'))official('Class C/D PSUR·PER 다음 연간 업데이트 관리일',plusYearISO(value('psurDate')),'산출물별 최근 업데이트일 기준 · 같은 날짜로 묶으라는 규정 아님');if(value('incidentDate')){const days=Number(value('incidentType')||15);official(`IVDR Serious Incident 최장 보고기한 · ${days}일`,shiftISO(value('incidentDate'),days),'즉시 보고하되 제조업체 인지일로부터 해당 일수를 넘기지 않음')}if(value('auditEndDate')){guidance('MDSAP NC 계획 제출 권고',shiftISO(value('auditEndDate'),15),'공식 프로그램 권고 · 심사 종료 후 15 calendar days');guidance('MDSAP Grade 4/5 이행증거 권고',shiftISO(value('auditEndDate'),30),'공식 프로그램 권고 · 심사 종료 후 30 calendar days')}renderAll()}
 fields.forEach(id=>{const el=document.getElementById(id),saved=localStorage.getItem('regmap-'+id);if(saved!==null)el.value=saved;el.addEventListener('change',calc)});calc();
 let renderedToday=localISO();
 function refreshToday(){const nextToday=localISO();if(nextToday!==renderedToday){renderedToday=nextToday;renderDateCalendars();renderGantt()}}
